@@ -24,7 +24,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
             <img class="item-img mc-img"
                  v-if="isSuspicious"
                  :src="'/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
-                 :style="'width: 100%;clip-path: inset(0 0 ' + (this.pixel+150) + 'px 0);margin-bottom: ' + this.pixel + 'px;margin-top: 2rem'"
+                 :style="'width: 100%;clip-path: inset(0 0 ' + (pixel+150) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
                  alt=""/>
             <img class="overlay-img mc-img"
                  v-if="timer!=0 && mode=='break'"
@@ -57,6 +57,7 @@ import {seniorLootTable, simpleLootTable} from 'pages/minigames/loot-table';
 
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
+let pixel = 150
 
 export default defineComponent({
   name: 'RescueCaptainOhm',
@@ -64,16 +65,16 @@ export default defineComponent({
     setProgress(progress: number) {
       switch (progress) {
         case 0:
-          this.pixel = 150
+          pixel = 150
           break
         case 1:
-          this.pixel = 102
+          pixel = 102
           break
         case 2:
-          this.pixel = 56
+          pixel = 56
           break
         case 3:
-          this.pixel = 12
+          pixel = 12
           break
       }
       this.blockSrc = `suspicious_gravel_${progress}`
@@ -167,7 +168,6 @@ export default defineComponent({
   },
   data() {
     return {
-      pixel: 150,
       blockSrc: 'gravel',
       itemSrc: '',
       isSuspicious: false,

@@ -39,3 +39,5 @@ yarn-error.log*
 # 项目排除路径
 /src/env.d.ts
 /yarn.lock
+
+.vercel
