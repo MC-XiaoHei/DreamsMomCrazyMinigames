@@ -57,8 +57,7 @@ import {seniorLootTable, simpleLootTable} from 'pages/minigames/loot-table';
 
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
-let pixel = 150
-let timer = 0
+let pixel:number
 
 export default defineComponent({
   name: 'RescueCaptainOhm',
@@ -168,6 +167,9 @@ export default defineComponent({
     }
   },
   data() {
+    pixel = 150
+    let timer:number
+    timer = 0
     return {
       blockSrc: 'gravel',
       itemSrc: '',
