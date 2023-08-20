@@ -28,7 +28,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
                  alt=""/>
             <img class="overlay-img mc-img"
                  v-if="timer!=0 && mode=='break'"
-                 :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer-1).toString() + '.png'"
+                 :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (this.timer-1).toString() + '.png'"
                  alt=""/>
           </div>
           <q-img @mousedown="startCheck"
@@ -58,7 +58,6 @@ import {seniorLootTable, simpleLootTable} from 'pages/minigames/loot-table';
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
 let pixel = 150
-let timer = 0
 
 export default defineComponent({
   name: 'RescueCaptainOhm',
@@ -100,14 +99,14 @@ export default defineComponent({
     },
     onUpdateTimer() {
       if (this.mode == 'break') {
-        if (timer >= 10) {
-          timer = 0
+        if (this.timer >= 10) {
+          this.timer = 0
           this.refresh()
           this.stopTimer()
           this.startTimer()
         }
       } else if (this.isSuspicious) {
-        this.checkTimer = Math.round(timer / 14)
+        this.checkTimer = Math.round(this.timer / 14)
         this.setProgress(this.checkTimer)
         if (this.checkTimer == 4) {
           this.checkTimer = 0
@@ -138,7 +137,7 @@ export default defineComponent({
     },
     startTimer() {
       timerHandler = setInterval(() => {
-        timer++
+        this.timer++
         this.onUpdateTimer()
       }, 100)
     },
@@ -164,7 +163,7 @@ export default defineComponent({
           }
         }, 500)
       }
-      timer = 0
+      this.timer = 0
     }
   },
   data() {
@@ -174,6 +173,7 @@ export default defineComponent({
       isSuspicious: false,
       mode: 'break',
       pressing: false,
+      timer: 0,
       checkTimer: 0,
       checkTimerRunning: false
     }
