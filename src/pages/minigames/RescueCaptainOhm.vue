@@ -19,16 +19,16 @@ import {vAutoAnimate} from '@formkit/auto-animate';
                @touchcancel="stopPress"
                @touchend="stopPress">
             <img class="block-img mc-img"
-                 :src="'public/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
+                 :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
                  alt=""/>
             <img class="item-img mc-img"
                  v-if="isSuspicious"
-                 :src="'public/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
+                 :src="'/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
                  :style="'width: 100%;clip-path: inset(0 0 ' + (this.pixel+150) + 'px 0);margin-bottom: ' + this.pixel + 'px;margin-top: 2rem'"
                  alt=""/>
             <img class="overlay-img mc-img"
                  v-if="timer!=0 && mode=='break'"
-                 :src="'public/minigame-assets/rescue-captain-ohm/destroy_stage_' + (this.timer-1).toString() + '.png'"
+                 :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (this.timer-1).toString() + '.png'"
                  alt=""/>
           </div>
           <q-img @mousedown="startCheck"
@@ -38,7 +38,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
                  @touchcancel="stopPress"
                  @touchend="stopPress"
                  ref="container"
-                 src="public/minigame-assets/rescue-captain-ohm/container.png"
+                 src="/minigame-assets/rescue-captain-ohm/container.png"
                  alt=""
                  class="col-12 mc-img"
                  width="80px"
