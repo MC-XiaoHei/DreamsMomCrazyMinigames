@@ -17,7 +17,16 @@ import MinigameCard from 'components/MinigameCard.vue';
                @touchstart="startBreak"
                @touchcancel="stopPress"
                @touchend="stopPress">
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_0.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_1.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_2.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_3.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_4.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_5.png" style="display: none" alt=""/>
             <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_6.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_7.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_8.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_9.png" style="display: none" alt=""/>
             <img class="block-img mc-img"
                  :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
                  alt=""/>
