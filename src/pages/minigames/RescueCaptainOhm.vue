@@ -87,7 +87,7 @@ export default defineComponent({
       }
     },
     refresh() {
-      if (Math.floor(Math.random() * 100) <= 90) {
+      if (Math.floor(Math.random() * 100) <= 30) {
         this.isSuspicious = true
         this.setProgress(0)
         this.randomItem()
