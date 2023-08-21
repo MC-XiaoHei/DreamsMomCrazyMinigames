@@ -17,6 +17,7 @@ import MinigameCard from 'components/MinigameCard.vue';
                @touchstart="startBreak"
                @touchcancel="stopPress"
                @touchend="stopPress">
+            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_6.png" style="display: none" alt=""/>
             <img class="block-img mc-img"
                  :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
                  alt=""/>
