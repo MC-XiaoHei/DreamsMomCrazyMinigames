@@ -99,14 +99,14 @@ export default defineComponent({
     },
     onUpdateTimer() {
       if (this.mode == 'break') {
-        if (this.timer >= 10) {
-          this.timer = 0
+        if (timer >= 10) {
+          timer = 0
           this.refresh()
           this.stopTimer()
           this.startTimer()
         }
       } else if (this.isSuspicious) {
-        this.checkTimer = Math.round(this.timer / 14)
+        this.checkTimer = Math.round(timer / 14)
         this.setProgress(this.checkTimer)
         if (this.checkTimer == 4) {
           this.checkTimer = 0
@@ -137,7 +137,7 @@ export default defineComponent({
     },
     startTimer() {
       timerHandler = setInterval(() => {
-        this.timer++
+        timer++
         this.onUpdateTimer()
       }, 100)
     },
@@ -163,7 +163,7 @@ export default defineComponent({
           }
         }, 500)
       }
-      this.timer = 0
+      timer = 0
     }
   },
   data() {
@@ -175,7 +175,6 @@ export default defineComponent({
       isSuspicious: false,
       mode: 'break',
       pressing: false,
-      timer: timer,
       checkTimer: 0,
       checkTimerRunning: false
     }
