@@ -31,6 +31,11 @@ import MinigameCard from 'components/MinigameCard.vue';
             <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_1.png" style="display: none" alt=""/>
             <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_2.png" style="display: none" alt=""/>
             <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_3.png" style="display: none" alt=""/>
+            <audio ref="audio"
+                   :src="'/minigame-assets/rescue-captain-ohm/audio/' + audioName + '.ogg'"
+                   autoplay
+                   controls="controls"
+                   style="display: none;"/>
             <img class="block-img mc-img"
                  :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
                  alt=""/>
@@ -100,6 +105,11 @@ export default defineComponent({
         this.itemSrc = seniorLootTable.get(random - 45)
       }
     },
+    playAudio(path: string) {
+      this.$refs.audio.pause()
+      this.audioName = path
+      this.$refs.audio.play()
+    },
     refresh() {
       if (Math.floor(Math.random() * 100) <= 30) {
         this.isSuspicious = true
@@ -117,6 +127,8 @@ export default defineComponent({
           this.refresh()
           this.stopTimer()
           this.startTimer()
+        }else{
+          // this.playAudio('Suspicious_gravel_break')
         }
       } else if (this.isSuspicious) {
         this.checkTimer = Math.round(this.timer / 14)
@@ -189,7 +201,8 @@ export default defineComponent({
       pressing: false,
       timer: 0,
       checkTimer: 0,
-      checkTimerRunning: false
+      checkTimerRunning: false,
+      audioName: 'Suspicious_gravel_break'
     }
   }
 });
