@@ -21,13 +21,13 @@ import MinigameCard from 'components/MinigameCard.vue';
                  :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
                  alt=""/>
             <img class="item-img mc-img"
-                 v-if="this.isSuspicious"
+                 v-if="isSuspicious"
                  :src="'/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
                  :style="'width: 100%;clip-path: inset(0 0 ' + (pixel+150) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
                  alt=""/>
             <img class="overlay-img mc-img"
-                 v-if="this.timer!=0 && this.mode=='break'"
-                 :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (this.timer-1).toString() + '.png'"
+                 v-if="timer!=0 && mode=='break'"
+                 :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer-1).toString() + '.png'"
                  alt=""/>
           </div>
           <q-img @mousedown="startCheck"
