@@ -113,9 +113,6 @@ export default defineComponent({
           this.refresh()
         }
       }
-      this.showOverlay = (this.timer > 0 && this.mode == 'break')
-      console.log(this.showOverlay)
-      console.log(this.timer)
     },
     startCheck() {
       this.mode = 'check'
@@ -178,8 +175,7 @@ export default defineComponent({
       pressing: false,
       timer: 0,
       checkTimer: 0,
-      checkTimerRunning: false,
-      showOverlay: false
+      checkTimerRunning: false
     }
   }
 });
