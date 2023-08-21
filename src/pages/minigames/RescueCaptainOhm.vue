@@ -10,6 +10,36 @@ import MinigameCard from 'components/MinigameCard.vue';
       <div class="q-pa-md">
         <div class="row container"
              oncontextmenu="return false">
+          <q-dialog v-model="item">
+            <q-card>
+              <q-card-section>
+                <div class="text-h6">恭喜！</div>
+              </q-card-section>
+
+              <q-card-section class="q-pt-none">
+                你挖到了{{ lastItem }}！
+              </q-card-section>
+
+              <q-card-actions align="right">
+                <q-btn flat label="知道啦" color="primary" v-close-popup/>
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+          <q-dialog v-model="wayFinder">
+            <q-card>
+              <q-card-section>
+                <div class="text-h6">芜湖！</div>
+              </q-card-section>
+
+              <q-card-section class="q-pt-none">
+                向导老板被你解救了！
+              </q-card-section>
+
+              <q-card-actions align="right">
+                <q-btn flat label="好哦！" color="primary" v-close-popup/>
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
           <div class="image-container"
                @mousedown="startBreak"
                @mouseleave="stopPress"
@@ -70,7 +100,7 @@ import MinigameCard from 'components/MinigameCard.vue';
 
 <script lang="ts">
 
-import {defineComponent} from 'vue';
+import {defineComponent, ref} from 'vue';
 import {seniorLootTable, simpleLootTable} from 'pages/minigames/loot-table';
 
 let timerHandler: string | number | NodeJS.Timeout | undefined
@@ -100,16 +130,18 @@ export default defineComponent({
     randomItem() {
       const random = Math.floor(Math.random() * 57) + 1
       if (random < 46) {
-        this.itemSrc = simpleLootTable.get(random)
+        this.itemSrc = simpleLootTable.get(random)[0]
+        this.thisItem = simpleLootTable.get(random)[1]
       } else {
-        this.itemSrc = seniorLootTable.get(random - 45)
+        this.itemSrc = seniorLootTable.get(random - 45)[0]
+        this.thisItem = seniorLootTable.get(random - 45)[1]
       }
     },
-    playAudio(path: string) {
-      this.$refs.audio.pause()
-      this.audioName = path
-      this.$refs.audio.play()
-    },
+    // playAudio(path: string) {
+    //   this.$refs.audio.pause()
+    //   this.audioName = path
+    //   this.$refs.audio.play()
+    // },
     refresh() {
       if (Math.floor(Math.random() * 100) <= 30) {
         this.isSuspicious = true
@@ -127,7 +159,7 @@ export default defineComponent({
           this.refresh()
           this.stopTimer()
           this.startTimer()
-        }else{
+        } else {
           // this.playAudio('Suspicious_gravel_break')
         }
       } else if (this.isSuspicious) {
@@ -135,6 +167,12 @@ export default defineComponent({
         this.setProgress(this.checkTimer)
         if (this.checkTimer == 4) {
           this.checkTimer = 0
+          this.lastItem = this.thisItem
+          if (this.itemSrc == 'wayfinder_armor_trim_smithing_template') {
+            this.wayFinder = true
+          } else {
+            this.item = true
+          }
           this.stopTimer()
           this.refresh()
         }
@@ -202,7 +240,11 @@ export default defineComponent({
       timer: 0,
       checkTimer: 0,
       checkTimerRunning: false,
-      audioName: 'Suspicious_gravel_break'
+      audioName: 'Suspicious_gravel_break',
+      item: ref(false),
+      wayFinder: ref(false),
+      thisItem: '',
+      lastItem: ''
     }
   }
 });
