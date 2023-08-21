@@ -27,7 +27,7 @@ import MinigameCard from 'components/MinigameCard.vue';
                  alt=""/>
             <img class="overlay-img mc-img"
                  v-if="showOverlay"
-                 :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer-1) + '.png'"
+                 :src="'https://dmcm.xor7.cn/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer-1) + '.png'"
                  alt=""/>
           </div>
           <q-img @mousedown="startCheck"
