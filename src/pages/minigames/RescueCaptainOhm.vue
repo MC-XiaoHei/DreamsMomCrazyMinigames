@@ -49,58 +49,64 @@ import MinigameCard from 'components/MinigameCard.vue';
               </q-card-actions>
             </q-card>
           </q-dialog>
-          <div class="image-container"
-               @mousedown="startBreak"
-               @mouseleave="stopPress"
-               @mouseup="stopPress"
-               @touchstart="startBreak"
-               @touchcancel="stopPress"
-               @touchend="stopPress">
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_0.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_1.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_2.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_3.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_4.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_5.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_6.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_7.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_8.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_9.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_0.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_1.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_2.png" style="display: none" alt=""/>
-            <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_3.png" style="display: none" alt=""/>
-            <audio ref="audio"
-                   :src="'/minigame-assets/rescue-captain-ohm/audio/' + audioName + '.ogg'"
-                   autoplay
-                   controls="controls"
-                   style="display: none;"/>
-            <img class="block-img mc-img"
-                 :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
-                 alt=""/>
-            <img class="item-img mc-img"
-                 v-if="isSuspicious"
-                 :src="'/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
-                 :style="'width: 80%;clip-path: inset(0 0 ' + (pixel+120) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
-                 alt=""/>
-            <img class="overlay-img mc-img"
-                 v-if="mode=='break' && timer >= 1"
-                 :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer>=1?(timer - 1):0).toString() + '.png'"
-                 alt=""/>
+          <div class="image-btn-container">
+            <div class="image-container">
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_0.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_1.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_2.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_3.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_4.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_5.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_6.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_7.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_8.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_9.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_0.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_1.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_2.png" style="display: none" alt=""/>
+              <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_3.png" style="display: none" alt=""/>
+              <audio ref="audio"
+                     :src="'/minigame-assets/rescue-captain-ohm/audio/' + audioName + '.ogg'"
+                     autoplay
+                     controls="controls"
+                     style="display: none;"/>
+              <img class="block-img mc-img"
+                   :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
+                   alt=""/>
+              <img class="item-img mc-img"
+                   v-if="isSuspicious"
+                   :src="'/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
+                   :style="'width: 80%;clip-path: inset(0 0 ' + (pixel+120) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
+                   alt=""/>
+              <img class="overlay-img mc-img"
+                   v-if="mode=='break' && timer >= 1"
+                   :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer>=1?(timer - 1):0).toString() + '.png'"
+                   alt=""/>
+            </div>
+            <div class="overlay-div"
+                 @mousedown="startBreak"
+                 @mouseleave="stopPress"
+                 @mouseup="stopPress"
+                 @touchstart="startBreak"
+                 @touchcancel="stopPress"
+                 @touchend="stopPress"/>
           </div>
-          <q-img @mousedown="startCheck"
+          <div class="image-btn-container">
+            <q-img ref="container"
+                   src="/minigame-assets/rescue-captain-ohm/container.png"
+                   alt=""
+                   class="col-12 mc-img"
+                   width="80px"
+                   height="80px"
+                   style="margin-top: 2rem"/>
+            <div class="overlay-div"
+                 @mousedown="startCheck"
                  @mouseleave="stopPress"
                  @mouseup="stopPress"
                  @touchstart="startCheck"
                  @touchcancel="stopPress"
-                 @touchend="stopPress"
-                 ref="container"
-                 src="/minigame-assets/rescue-captain-ohm/container.png"
-                 alt=""
-                 class="col-12 mc-img"
-                 width="80px"
-                 height="80px"
-                 style="margin-top: 2rem"/>
+                 @touchend="stopPress"/>
+          </div>
         </div>
       </div>
     </minigame-card>
@@ -146,11 +152,6 @@ export default defineComponent({
         this.thisItem = seniorLootTable.get(random - 45)[1]
       }
     },
-    // playAudio(path: string) {
-    //   this.$refs.audio.pause()
-    //   this.audioName = path
-    //   this.$refs.audio.play()
-    // },
     refresh() {
       if (Math.floor(Math.random() * 100) <= 30) {
         this.isSuspicious = true
@@ -298,5 +299,21 @@ export default defineComponent({
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
+}
+
+.image-btn-container {
+  position: relative;
+  display: inline-block;
+}
+
+.overlay-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  pointer-events: auto;
+  z-index: 4;
 }
 </style>
