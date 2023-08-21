@@ -5,8 +5,17 @@ import MinigameCard from 'components/MinigameCard.vue';
 
 <template>
   <div class="q-pa-md row container full-height full-width">
-    <minigame-card ref="rescueCaptainOhm" title="拯救向导老板！" caption="挖挖挖扫扫扫..."
+    <minigame-card ref="rescueCaptainOhm"
+                   title="拯救向导老板！"
+                   caption="挖挖挖扫扫扫..."
+                   info-data="电脑"
                    style="max-width: 350px">
+      <template v-slot:info>
+        <b>对于所有玩家：</b>
+        <p>长按沙砾可以挖掘当前沙砾，长按刷子可以清扫当前沙砾！</p>
+        <b>对于电脑玩家：</b>
+        <p>还可以右键长按沙砾以清扫当前沙砾哦！</p>
+      </template>
       <div class="q-pa-md">
         <div class="row container"
              oncontextmenu="return false">
