@@ -26,7 +26,7 @@ import MinigameCard from 'components/MinigameCard.vue';
                  :style="'width: 100%;clip-path: inset(0 0 ' + (pixel+150) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
                  alt=""/>
             <img class="overlay-img mc-img"
-                 v-if="showOverlay && mode=='break'"
+                 v-if="showOverlay"
                  :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer-1) + '.png'"
                  alt=""/>
           </div>
@@ -57,7 +57,6 @@ import {seniorLootTable, simpleLootTable} from 'pages/minigames/loot-table';
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
 let pixel:number
-let showOverlay = false
 
 export default defineComponent({
   name: 'RescueCaptainOhm',
@@ -98,7 +97,6 @@ export default defineComponent({
       }
     },
     onUpdateTimer() {
-      showOverlay = this.timer != 0
       if (this.mode == 'break') {
         if (this.timer >= 10) {
           this.timer = 0
@@ -115,6 +113,9 @@ export default defineComponent({
           this.refresh()
         }
       }
+      this.showOverlay = (this.timer != 0 && this.mode == 'break')
+      console.log(this.showOverlay)
+      console.log(this.timer)
     },
     startCheck() {
       this.mode = 'check'
@@ -177,7 +178,8 @@ export default defineComponent({
       pressing: false,
       timer: 0,
       checkTimer: 0,
-      checkTimerRunning: false
+      checkTimerRunning: false,
+      showOverlay: false
     }
   }
 });
