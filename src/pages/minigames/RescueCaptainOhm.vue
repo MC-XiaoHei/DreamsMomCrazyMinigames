@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import MinigameCard from 'components/MinigameCard.vue';
-import {vAutoAnimate} from '@formkit/auto-animate';
 </script>
 
 
 <template>
   <div class="q-pa-md row container full-height full-width">
-    <minigame-card v-auto-animate ref="rescueCaptainOhm" title="拯救向导老板！" caption="挖挖挖扫扫扫..."
+    <minigame-card ref="rescueCaptainOhm" title="拯救向导老板！" caption="挖挖挖扫扫扫..."
                    style="max-width: 350px">
       <div class="q-pa-md">
         <div class="row container"
@@ -22,13 +21,13 @@ import {vAutoAnimate} from '@formkit/auto-animate';
                  :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
                  alt=""/>
             <img class="item-img mc-img"
-                 v-if="isSuspicious"
+                 v-if="this.isSuspicious"
                  :src="'/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
                  :style="'width: 100%;clip-path: inset(0 0 ' + (pixel+150) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
                  alt=""/>
             <img class="overlay-img mc-img"
-                 v-if="timer!=0 && mode=='break'"
-                 :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (this.timer-1).toString() + '.png'"
+                 v-if="this.timer!=0 && this.mode=='break'"
+                 :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer-1).toString() + '.png'"
                  alt=""/>
           </div>
           <q-img @mousedown="startCheck"
