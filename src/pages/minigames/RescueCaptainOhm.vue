@@ -270,6 +270,7 @@ export default defineComponent({
 
 .mc-img {
   image-rendering: pixelated;
+  pointer-events: none;
 }
 
 .image-container {
