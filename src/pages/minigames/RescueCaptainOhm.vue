@@ -27,6 +27,10 @@ import MinigameCard from 'components/MinigameCard.vue';
             <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_7.png" style="display: none" alt=""/>
             <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_8.png" style="display: none" alt=""/>
             <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_9.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_0.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_1.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_2.png" style="display: none" alt=""/>
+            <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_3.png" style="display: none" alt=""/>
             <img class="block-img mc-img"
                  :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
                  alt=""/>
