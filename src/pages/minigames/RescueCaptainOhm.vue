@@ -37,7 +37,7 @@ import MinigameCard from 'components/MinigameCard.vue';
             <img class="item-img mc-img"
                  v-if="isSuspicious"
                  :src="'/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
-                 :style="'width: 100%;clip-path: inset(0 0 ' + (pixel+150) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
+                 :style="'width: 80%;clip-path: inset(0 0 ' + (pixel+120) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
                  alt=""/>
             <img class="overlay-img mc-img"
                  v-if="mode=='break' && timer >= 1"
@@ -78,16 +78,16 @@ export default defineComponent({
     setProgress(progress: number) {
       switch (progress) {
         case 0:
-          pixel = 150
+          pixel = 120
           break
         case 1:
-          pixel = 102
+          pixel = 81
           break
         case 2:
-          pixel = 56
+          pixel = 44
           break
         case 3:
-          pixel = 12
+          pixel = 9
           break
       }
       this.blockSrc = `suspicious_gravel_${progress}`
