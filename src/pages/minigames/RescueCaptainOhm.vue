@@ -26,7 +26,7 @@ import MinigameCard from 'components/MinigameCard.vue';
                  :style="'width: 100%;clip-path: inset(0 0 ' + (pixel+150) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
                  alt=""/>
             <img class="overlay-img mc-img"
-                 v-if="timer!=0 && mode=='break'"
+                 v-if="(timer!=0 && mode=='break')"
                  :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer-1) + '.png'"
                  alt=""/>
           </div>
@@ -220,6 +220,6 @@ export default defineComponent({
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: 4;
 }
 </style>
