@@ -232,6 +232,7 @@ export default defineComponent({
     stopPress() {
       if (this.$q.platform.is.mobile && this.mobileFlag < 2) {
         this.mobileFlag++
+        return;
       }
       this.stopTimer()
       if (!this.pressing) {
