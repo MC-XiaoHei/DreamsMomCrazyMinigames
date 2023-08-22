@@ -108,7 +108,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
                    @mouseleave="stopPress"
                    @mouseup="stopPress"
                    @touchstart="startCheck"
-
+                   @touchcancel="stopPress"
                    @touchend="stopPress"/>
             </div>
           </div>
@@ -199,6 +199,9 @@ export default defineComponent({
       }
     },
     startCheck() {
+      if (this.$q.platform.is.mobile) {
+        this.mobileFlag = 0
+      }
       this.mode = 'check'
       this.startPress()
     },
@@ -227,8 +230,8 @@ export default defineComponent({
       }, 100)
     },
     stopPress() {
-      if(this.mode == 'check'){
-        // alert(":B")
+      if (this.$q.platform.is.mobile && this.mobileFlag < 2) {
+        this.mobileFlag++
       }
       this.stopTimer()
       if (!this.pressing) {
@@ -270,7 +273,8 @@ export default defineComponent({
       wayFinder: ref(false),
       thisItem: '',
       lastItem: '',
-      animate: false
+      animate: false,
+      mobileFlag: 0
     }
   }
 });
