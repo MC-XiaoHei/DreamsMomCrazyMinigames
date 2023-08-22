@@ -278,7 +278,6 @@ export default defineComponent({
 .animated-element {
   width: 100px;
   height: 100px;
-  background-color: blue;
   opacity: 1;
   position: absolute;
   top: 50%;
