@@ -5,6 +5,10 @@ import {vAutoAnimate} from '@formkit/auto-animate';
 
 
 <template>
+  <div ref="notice" class="notice" style="top:-65px">
+    <div ref="notice_title" class="notice_title" style="top:10px;left:40px"></div>
+    <div ref="notice_content" class="notice_content" style="top:5px;left:40px"></div>
+  </div>
   <q-page class="row items-center justify-evenly">
     <div class="q-pa-md row container">
       <minigame-card ref="rescueCaptainOhm"
@@ -58,22 +62,48 @@ import {vAutoAnimate} from '@formkit/auto-animate';
                 </q-card-actions>
               </q-card>
             </q-dialog>
+            <div>
+              <audio ref="achievement_sound" preload="auto"
+                     src="/minigame-assets/rescue-captain-ohm/sound/Challenge_complete.mp3"></audio>
+              <audio ref="sand_sound" preload="auto"
+                     src="/minigame-assets/rescue-captain-ohm/sound/Brush_brushing1.mp3"></audio>
+              <audio ref="pop_sound" preload="auto" src="/minigame-assets/rescue-captain-ohm/sound/Pop.mp3"></audio>
+              <audio ref="dig_sound" preload="auto"
+                     src="/minigame-assets/rescue-captain-ohm/sound/gravel_step.mp3"></audio>
+              <audio ref="destroy_sound" preload="auto"
+                     src="/minigame-assets/rescue-captain-ohm/sound/gravel_dig.mp3"></audio>
+            </div>
+            <div ref="stat"></div>
             <div class="image-btn-container">
               <div class="image-container">
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_0.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_1.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_2.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_3.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_4.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_5.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_6.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_7.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_8.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_9.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_0.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_1.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_2.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_3.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_0.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_1.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_2.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_3.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_4.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_5.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_6.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_7.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_8.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_9.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_0.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_1.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_2.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_3.png" style="display: none"
+                     alt=""/>
                 <img :class="{ 'animated-element': true, 'animate': animate, 'block-img': true, 'mc-img': true }"
                      :src="'/minigame-assets/rescue-captain-ohm/block/' + blockSrc + '.png'"
                      alt=""/>
@@ -122,13 +152,24 @@ import {vAutoAnimate} from '@formkit/auto-animate';
 
 import {defineComponent, ref} from 'vue';
 import {seniorLootTable, simpleLootTable} from 'pages/minigames/loot-table';
+import {achievements, Statistic, findUnlock} from 'pages/minigames/achievements';
 
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
 let pixel: number
+let statistic: Statistic, achievement: Record<string, number | boolean>
 
 export default defineComponent({
   name: 'RescueCaptainOhm',
+  mounted() {
+    if (window.localStorage.getItem('statistic') == null || window.localStorage.getItem('statistic') == '')
+      window.localStorage.setItem('statistic', JSON.stringify({brush_block: 0, break_block: 0}))
+    statistic = JSON.parse(window.localStorage.getItem('statistic') ?? '')
+    if (window.localStorage.getItem('achievement') == null || window.localStorage.getItem('achievement') == '')
+      window.localStorage.setItem('achievement', JSON.stringify({}))
+    achievement = JSON.parse(window.localStorage.getItem('achievement') ?? '')
+    this.saveStatistic()
+  },
   methods: {
     setProgress(progress: number) {
       switch (progress) {
@@ -146,6 +187,24 @@ export default defineComponent({
           break
       }
       this.blockSrc = `suspicious_gravel_${progress}`
+    },
+    saveStatistic() {
+      window.localStorage.setItem('statistic', JSON.stringify(statistic))
+      this.$refs.stat.innerText = `挖掘方块：${statistic.break_block} | 清理方块：${statistic.brush_block}`
+      this.checkAchievement()
+    },
+    checkAchievement() {
+      let res = findUnlock(statistic, achievement)
+      if (Object.keys(res).length > 0) {
+        Object.keys(res).forEach(id => achievement[id] = res[id])
+        window.localStorage.setItem('achievement', JSON.stringify(achievement))
+        this.$refs.notice_title.innerHTML = '达成成就！ ' + achievements[Object.keys(res)[0]].name
+        this.$refs.notice_content.innerHTML = achievements[Object.keys(res)[0]].content
+        this.$refs.achievement_sound.currentTime = 0
+        this.$refs.achievement_sound.play()
+        this.$refs.notice.style.left = 'calc(100% - 320px)'
+        setTimeout(() => this.$refs.notice.style.left = '100%', 6000)
+      }
     },
     randomItem() {
       const random = Math.floor(Math.random() * 57) + 1
@@ -178,23 +237,39 @@ export default defineComponent({
       if (this.mode == 'break') {
         if (this.timer >= 10) {
           this.timer = 0
+          statistic.break_block++
+          this.saveStatistic()
+          this.$refs.destroy_sound.currentTime = 0
+          this.$refs.destroy_sound.play()
           this.refresh()
-        } else {
-          // this.playAudio('Suspicious_gravel_break')
+        } else if ([2, 5, 7].indexOf(this.timer) != -1) {
+          this.$refs.dig_sound.currentTime = 0
+          this.$refs.dig_sound.play()
         }
       } else if (this.isSuspicious) {
         this.checkTimer = Math.round(this.timer / 14)
         this.setProgress(this.checkTimer)
         if (this.checkTimer == 4) {
           this.checkTimer = 0
+          this.currentBrushTime = 0
+          statistic.brush_block++
+          this.saveStatistic()
           this.lastItem = this.thisItem
           if (this.itemSrc == 'wayfinder_armor_trim_smithing_template') {
             this.wayFinder = true
           } else {
             this.item = true
           }
+          setTimeout(() => {
+            this.$refs.pop_sound.currentTime = 0
+            this.$refs.pop_sound.play()
+          }, 500)
           this.stopTimer()
           this.refresh()
+        } else if (this.checkTimer != this.currentBrushTime) {
+          this.currentBrushTime = this.checkTimer
+          this.$refs.sand_sound.currentTime = 0
+          this.$refs.sand_sound.play()
         }
       }
     },
@@ -230,7 +305,7 @@ export default defineComponent({
       }, 100)
     },
     stopPress() {
-      if (this.$q.platform.is.mobile && this.mobileFlag < 2  && this.mode == 'check') {
+      if (this.$q.platform.is.mobile && this.mobileFlag < 2 && this.mode == 'check') {
         this.mobileFlag++
         return;
       }
@@ -275,7 +350,8 @@ export default defineComponent({
       thisItem: '',
       lastItem: '',
       animate: false,
-      mobileFlag: 0
+      mobileFlag: 0,
+      currentBrushTime: 0
     }
   }
 });
@@ -362,5 +438,31 @@ export default defineComponent({
   background-color: rgba(0, 0, 0, 0);
   pointer-events: auto;
   z-index: 3;
+}
+
+.notice {
+  image-rendering: pixelated;
+  position: absolute;
+  background-image: url('/minigame-assets/rescue-captain-ohm/gui/toasts.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: 0 -125px;
+  background-size: 500px 500px;
+  width: 320px;
+  height: 65px;
+  left: 100%;
+  transition: all 0.2s ease-out;
+}
+
+.notice_title {
+  font-size: larger;
+  color: white;
+  position: relative;
+}
+
+.notice_content {
+  font-size: medium;
+  color: white;
+  position: relative;
 }
 </style>
