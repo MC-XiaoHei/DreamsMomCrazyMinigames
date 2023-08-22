@@ -5,6 +5,10 @@ import {vAutoAnimate} from '@formkit/auto-animate';
 
 
 <template>
+  <div ref="notice" class="notice" style="top:-65px">
+    <div ref="notice_title" class="notice_title" style="top:10px;left:40px"></div>
+    <div ref="notice_content" class="notice_content" style="top:5px;left:40px"></div>
+  </div>
   <q-page class="row items-center justify-evenly">
     <div class="q-pa-md row container">
       <minigame-card ref="rescueCaptainOhm"
@@ -59,6 +63,8 @@ import {vAutoAnimate} from '@formkit/auto-animate';
               </q-card>
             </q-dialog>
             <div>
+              <audio ref="achievement_sound" preload="auto"
+                     src="/minigame-assets/rescue-captain-ohm/sound/Challenge_complete.mp3"></audio>
               <audio ref="sand_sound" preload="auto"
                      src="/minigame-assets/rescue-captain-ohm/sound/Brush_brushing1.mp3"></audio>
               <audio ref="pop_sound" preload="auto" src="/minigame-assets/rescue-captain-ohm/sound/Pop.mp3"></audio>
@@ -146,15 +152,22 @@ import {vAutoAnimate} from '@formkit/auto-animate';
 
 import {defineComponent, ref} from 'vue';
 import {seniorLootTable, simpleLootTable} from 'pages/minigames/loot-table';
+import {achievements, Statistic, findUnlock} from 'pages/minigames/achievements';
 
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
 let pixel: number
-let statistic: { brush_block: number, break_block: number }
+let statistic: Statistic, achievement: Record<string, number | boolean>
 
 export default defineComponent({
   name: 'RescueCaptainOhm',
   mounted() {
+    if (window.localStorage.getItem('statistic') == null || window.localStorage.getItem('statistic') == '')
+      window.localStorage.setItem('statistic', JSON.stringify({brush_block: 0, break_block: 0}))
+    statistic = JSON.parse(window.localStorage.getItem('statistic') ?? '')
+    if (window.localStorage.getItem('achievement') == null || window.localStorage.getItem('achievement') == '')
+      window.localStorage.setItem('achievement', JSON.stringify({}))
+    achievement = JSON.parse(window.localStorage.getItem('achievement') ?? '')
     this.saveStatistic()
   },
   methods: {
@@ -178,6 +191,20 @@ export default defineComponent({
     saveStatistic() {
       window.localStorage.setItem('statistic', JSON.stringify(statistic))
       this.$refs.stat.innerText = `挖掘方块：${statistic.break_block} | 清理方块：${statistic.brush_block}`
+      this.checkAchievement()
+    },
+    checkAchievement() {
+      let res = findUnlock(statistic, achievement)
+      if (Object.keys(res).length > 0) {
+        Object.keys(res).forEach(id => achievement[id] = res[id])
+        window.localStorage.setItem('achievement', JSON.stringify(achievement))
+        this.$refs.notice_title.innerHTML = '达成成就！ ' + achievements[Object.keys(res)[0]].name
+        this.$refs.notice_content.innerHTML = achievements[Object.keys(res)[0]].content
+        this.$refs.achievement_sound.currentTime = 0
+        this.$refs.achievement_sound.play()
+        this.$refs.notice.style.left = 'calc(100% - 320px)'
+        setTimeout(() => this.$refs.notice.style.left = '100%', 6000)
+      }
     },
     randomItem() {
       const random = Math.floor(Math.random() * 57) + 1
@@ -307,10 +334,6 @@ export default defineComponent({
     }
   },
   data() {
-    if (window.localStorage.getItem('statistic') == null || window.localStorage.getItem('statistic') == '')
-      window.localStorage.setItem('statistic', JSON.stringify({brush_block: 0, break_block: 0}))
-    statistic = JSON.parse(window.localStorage.getItem('statistic') ?? '')
-
     pixel = 150
     return {
       blockSrc: 'gravel',
@@ -415,5 +438,31 @@ export default defineComponent({
   background-color: rgba(0, 0, 0, 0);
   pointer-events: auto;
   z-index: 3;
+}
+
+.notice {
+  image-rendering: pixelated;
+  position: absolute;
+  background-image: url('/minigame-assets/rescue-captain-ohm/gui/toasts.png');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: 0 -125px;
+  background-size: 500px 500px;
+  width: 320px;
+  height: 65px;
+  left: 100%;
+  transition: all 0.2s ease-out;
+}
+
+.notice_title {
+  font-size: larger;
+  color: white;
+  position: relative;
+}
+
+.notice_content {
+  font-size: medium;
+  color: white;
+  position: relative;
 }
 </style>
