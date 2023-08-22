@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-mb-xl col" @click="onClick" style="background-color: #e6f4ff">
+  <q-card class="col-md" @click="onClick" style="background-color: #e6f4ff">
     <q-dialog v-model="info">
       <q-card>
         <q-card-section>
@@ -16,9 +16,9 @@
       </q-card>
     </q-dialog>
     <q-item>
-      <q-item-section avatar>
+      <q-item-section avatar v-if="icon != undefined">
         <q-avatar square size="64px">
-          <img src="/icons/RescueCaptainOhm.webp" alt="Icon" class="icon">
+          <img :src="'/icons/' + icon" alt="Icon" class="icon">
         </q-avatar>
       </q-item-section>
       <q-item-section>
@@ -44,7 +44,8 @@ export default defineComponent({
   props: {
     title: String,
     caption: String,
-    to: String
+    to: String,
+    icon: String
   },
   methods: {
     onClick() {

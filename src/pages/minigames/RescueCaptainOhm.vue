@@ -1,116 +1,121 @@
 <script setup lang="ts">
 import MinigameCard from 'components/MinigameCard.vue';
+import {vAutoAnimate} from '@formkit/auto-animate';
 </script>
 
 
 <template>
-  <div class="q-pa-md row container full-height full-width">
-    <minigame-card ref="rescueCaptainOhm"
-                   title="拯救向导老板！"
-                   caption="挖挖挖扫扫扫..."
-                   info-data="电脑"
-                   style="max-width: 350px">
-      <template v-slot:info>
-        <b>对于所有玩家：</b>
-        <p>长按沙砾可以挖掘当前沙砾，长按刷子可以清扫当前沙砾！</p>
-        <b>对于电脑玩家：</b>
-        <p>还可以右键长按沙砾以清扫当前沙砾哦！</p>
-      </template>
-      <div class="q-pa-md">
-        <div class="row container"
-             oncontextmenu="return false">
-          <q-dialog v-model="item">
-            <q-card>
-              <q-card-section>
-                <div class="text-h6">恭喜！</div>
-              </q-card-section>
+  <q-page class="row items-center justify-evenly">
+    <div class="q-pa-md row container">
+      <minigame-card ref="rescueCaptainOhm"
+                     icon="RescueCaptainOhm.webp"
+                     title="拯救向导老板！"
+                     caption="挖挖挖扫扫扫..."
+                     style="max-width: 350px">
+        <template v-slot:info>
+          <b>对于所有玩家：</b>
+          <p>长按沙砾可以挖掘当前沙砾，长按刷子可以清扫当前沙砾！</p>
+          <b>对于电脑玩家：</b>
+          <p>还可以右键长按沙砾以清扫当前沙砾哦！</p>
+          <b>对于部分长按会识别图像或弹出跳转窗口的移动端玩家：</b>
+          <p>
+            可以试试双指按压！实在不行，换个浏览器吧（<br/>
+            目前移动端已经测试过的支持Edge，Firefox，百度浏览器<br/>
+            不支持华为原生浏览器等大多数原生浏览器uwu<br/>
+            如果你有能让原生浏览器不弹出以上窗口的办法，教教我吧（哭
+          </p>
+        </template>
+        <div class="q-pa-md">
+          <div class="row container"
+               oncontextmenu="return false">
+            <q-dialog v-model="item">
+              <q-card>
+                <q-card-section>
+                  <div class="text-h6">恭喜！</div>
+                </q-card-section>
 
-              <q-card-section class="q-pt-none">
-                你挖到了{{ lastItem }}！
-              </q-card-section>
+                <q-card-section class="q-pt-none">
+                  你挖到了{{ lastItem }}！
+                </q-card-section>
 
-              <q-card-actions align="right">
-                <q-btn flat label="知道啦" color="primary" v-close-popup/>
-              </q-card-actions>
-            </q-card>
-          </q-dialog>
-          <q-dialog v-model="wayFinder">
-            <q-card>
-              <q-card-section>
-                <div class="text-h6">芜湖！</div>
-              </q-card-section>
+                <q-card-actions align="right">
+                  <q-btn flat label="知道啦" color="primary" v-close-popup/>
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+            <q-dialog v-model="wayFinder">
+              <q-card>
+                <q-card-section>
+                  <div class="text-h6">芜湖！</div>
+                </q-card-section>
 
-              <q-card-section class="q-pt-none">
-                向导老板被你解救了！
-              </q-card-section>
+                <q-card-section class="q-pt-none">
+                  向导老板被你解救了！
+                </q-card-section>
 
-              <q-card-actions align="right">
-                <q-btn flat label="好哦！" color="primary" v-close-popup/>
-              </q-card-actions>
-            </q-card>
-          </q-dialog>
-          <div class="image-btn-container">
-            <div class="image-container">
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_0.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_1.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_2.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_3.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_4.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_5.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_6.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_7.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_8.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_9.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_0.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_1.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_2.png" style="display: none" alt=""/>
-              <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_3.png" style="display: none" alt=""/>
-              <audio ref="audio"
-                     :src="'/minigame-assets/rescue-captain-ohm/audio/' + audioName + '.ogg'"
-                     autoplay
-                     controls="controls"
-                     style="display: none;"/>
-              <img class="block-img mc-img"
-                   :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
-                   alt=""/>
-              <img class="item-img mc-img"
-                   v-if="isSuspicious"
-                   :src="'/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
-                   :style="'width: 80%;clip-path: inset(0 0 ' + (pixel+120) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
-                   alt=""/>
-              <img class="overlay-img mc-img"
-                   v-if="mode=='break' && timer >= 1"
-                   :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer>=1?(timer - 1):0).toString() + '.png'"
-                   alt=""/>
+                <q-card-actions align="right">
+                  <q-btn flat label="好哦！" color="primary" v-close-popup/>
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+            <div class="image-btn-container">
+              <div class="image-container">
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_0.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_1.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_2.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_3.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_4.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_5.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_6.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_7.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_8.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_9.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_0.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_1.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_2.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_3.png" style="display: none" alt=""/>
+                <img :class="{ 'animated-element': true, 'animate': animate, 'block-img': true, 'mc-img': true }"
+                     :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
+                     alt=""/>
+                <img class="item-img mc-img"
+                     v-if="isSuspicious"
+                     :src="'/minigame-assets/rescue-captain-ohm/item/' + itemSrc + '.png'"
+                     :style="'width: 80%;clip-path: inset(0 0 ' + (pixel+120) + 'px 0);margin-bottom: ' + pixel + 'px;margin-top: 2rem'"
+                     alt=""/>
+                <img class="overlay-img mc-img"
+                     v-if="mode=='break' && timer >= 1"
+                     :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer>=1?(timer - 1):0).toString() + '.png'"
+                     alt=""/>
+              </div>
+              <div class="overlay-div"
+                   @mousedown="startBreak"
+                   @mouseleave="stopPress"
+                   @mouseup="stopPress"
+                   @touchstart="startBreak"
+                   @touchcancel="stopPress"
+                   @touchend="stopPress"/>
             </div>
-            <div class="overlay-div"
-                 @mousedown="startBreak"
-                 @mouseleave="stopPress"
-                 @mouseup="stopPress"
-                 @touchstart="startBreak"
-                 @touchcancel="stopPress"
-                 @touchend="stopPress"/>
-          </div>
-          <div class="image-btn-container">
-            <q-img ref="container"
-                   src="/minigame-assets/rescue-captain-ohm/container.png"
-                   alt=""
-                   class="col-12 mc-img"
-                   width="80px"
-                   height="80px"
-                   style="margin-top: 2rem"/>
-            <div class="overlay-div"
-                 @mousedown="startCheck"
-                 @mouseleave="stopPress"
-                 @mouseup="stopPress"
-                 @touchstart="startCheck"
-                 @touchcancel="stopPress"
-                 @touchend="stopPress"/>
+            <div class="image-btn-container">
+              <q-img ref="container"
+                     src="/minigame-assets/rescue-captain-ohm/container.png"
+                     alt=""
+                     class="col-12 mc-img"
+                     width="80px"
+                     height="80px"
+                     style="margin-top: 2rem"/>
+              <div class="overlay-div"
+                   @mousedown="startCheck"
+                   @mouseleave="stopPress"
+                   @mouseup="stopPress"
+                   @touchstart="startCheck"
+                   @touchcancel="stopPress"
+                   @touchend="stopPress"/>
+            </div>
           </div>
         </div>
-      </div>
-    </minigame-card>
-  </div>
+      </minigame-card>
+    </div>
+  </q-page>
 </template>
 
 <script lang="ts">
@@ -153,6 +158,7 @@ export default defineComponent({
       }
     },
     refresh() {
+      this.startAnimation()
       if (Math.floor(Math.random() * 100) <= 30) {
         this.isSuspicious = true
         this.setProgress(0)
@@ -161,6 +167,12 @@ export default defineComponent({
         this.isSuspicious = false
         this.blockSrc = 'gravel'
       }
+    },
+    startAnimation() {
+      this.animate = true;
+      setTimeout(() => {
+        this.animate = false;
+      }, 250);
     },
     onUpdateTimer() {
       if (this.mode == 'break') {
@@ -254,7 +266,8 @@ export default defineComponent({
       item: ref(false),
       wayFinder: ref(false),
       thisItem: '',
-      lastItem: ''
+      lastItem: '',
+      animate: false
     }
   }
 });
@@ -262,6 +275,32 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.animated-element {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  opacity: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.animate {
+  animation: appear 0.25s ease forwards;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0.75;
+    transform: translate(-50%, -50%) scale(0.75);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
 .container {
   display: flex;
   justify-content: center;
