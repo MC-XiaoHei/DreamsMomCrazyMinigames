@@ -67,6 +67,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
               <audio ref="destroy_sound" preload="auto"
                      src="/minigame-assets/rescue-captain-ohm/sound/gravel_dig.mp3"></audio>
             </div>
+            <div ref="stat"></div>
             <div class="image-btn-container">
               <div class="image-container">
                 <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_0.png" style="display: none"
@@ -149,9 +150,13 @@ import {seniorLootTable, simpleLootTable} from 'pages/minigames/loot-table';
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
 let pixel: number
+let statistic: { brush_block: number, break_block: number }
 
 export default defineComponent({
   name: 'RescueCaptainOhm',
+  mounted() {
+    this.saveStatistic()
+  },
   methods: {
     setProgress(progress: number) {
       switch (progress) {
@@ -169,6 +174,10 @@ export default defineComponent({
           break
       }
       this.blockSrc = `suspicious_gravel_${progress}`
+    },
+    saveStatistic() {
+      window.localStorage.setItem('statistic', JSON.stringify(statistic))
+      this.$refs.stat.innerText = `挖掘方块：${statistic.break_block} | 清理方块：${statistic.brush_block}`
     },
     randomItem() {
       const random = Math.floor(Math.random() * 57) + 1
@@ -201,6 +210,8 @@ export default defineComponent({
       if (this.mode == 'break') {
         if (this.timer >= 10) {
           this.timer = 0
+          statistic.break_block++
+          this.saveStatistic()
           this.$refs.destroy_sound.currentTime = 0
           this.$refs.destroy_sound.play()
           this.refresh()
@@ -214,6 +225,8 @@ export default defineComponent({
         if (this.checkTimer == 4) {
           this.checkTimer = 0
           this.currentBrushTime = 0
+          statistic.brush_block++
+          this.saveStatistic()
           this.lastItem = this.thisItem
           if (this.itemSrc == 'wayfinder_armor_trim_smithing_template') {
             this.wayFinder = true
@@ -294,6 +307,10 @@ export default defineComponent({
     }
   },
   data() {
+    if (window.localStorage.getItem('statistic') == null || window.localStorage.getItem('statistic') == '')
+      window.localStorage.setItem('statistic', JSON.stringify({brush_block: 0, break_block: 0}))
+    statistic = JSON.parse(window.localStorage.getItem('statistic') ?? '')
+
     pixel = 150
     return {
       blockSrc: 'gravel',
