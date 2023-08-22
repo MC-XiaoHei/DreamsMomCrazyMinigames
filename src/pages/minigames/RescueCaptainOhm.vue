@@ -58,22 +58,45 @@ import {vAutoAnimate} from '@formkit/auto-animate';
                 </q-card-actions>
               </q-card>
             </q-dialog>
+            <div>
+              <audio ref="sand_sound" preload="auto"
+                     src="/minigame-assets/rescue-captain-ohm/sound/Brush_brushing1.mp3"></audio>
+              <audio ref="pop_sound" preload="auto" src="/minigame-assets/rescue-captain-ohm/sound/Pop.mp3"></audio>
+              <audio ref="dig_sound" preload="auto"
+                     src="/minigame-assets/rescue-captain-ohm/sound/gravel_step.mp3"></audio>
+              <audio ref="destroy_sound" preload="auto"
+                     src="/minigame-assets/rescue-captain-ohm/sound/gravel_dig.mp3"></audio>
+            </div>
             <div class="image-btn-container">
               <div class="image-container">
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_0.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_1.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_2.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_3.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_4.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_5.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_6.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_7.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_8.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_9.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_0.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_1.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_2.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_3.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_0.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_1.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_2.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_3.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_4.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_5.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_6.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_7.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_8.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_9.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_0.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_1.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_2.png" style="display: none"
+                     alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_3.png" style="display: none"
+                     alt=""/>
                 <img :class="{ 'animated-element': true, 'animate': animate, 'block-img': true, 'mc-img': true }"
                      :src="'/minigame-assets/rescue-captain-ohm/block/' + blockSrc + '.png'"
                      alt=""/>
@@ -178,23 +201,35 @@ export default defineComponent({
       if (this.mode == 'break') {
         if (this.timer >= 10) {
           this.timer = 0
+          this.$refs.destroy_sound.currentTime = 0
+          this.$refs.destroy_sound.play()
           this.refresh()
-        } else {
-          // this.playAudio('Suspicious_gravel_break')
+        } else if ([2, 5, 7].indexOf(this.timer) != -1) {
+          this.$refs.dig_sound.currentTime = 0
+          this.$refs.dig_sound.play()
         }
       } else if (this.isSuspicious) {
         this.checkTimer = Math.round(this.timer / 14)
         this.setProgress(this.checkTimer)
         if (this.checkTimer == 4) {
           this.checkTimer = 0
+          this.currentBrushTime = 0
           this.lastItem = this.thisItem
           if (this.itemSrc == 'wayfinder_armor_trim_smithing_template') {
             this.wayFinder = true
           } else {
             this.item = true
           }
+          setTimeout(() => {
+            this.$refs.pop_sound.currentTime = 0
+            this.$refs.pop_sound.play()
+          }, 500)
           this.stopTimer()
           this.refresh()
+        } else if (this.checkTimer != this.currentBrushTime) {
+          this.currentBrushTime = this.checkTimer
+          this.$refs.sand_sound.currentTime = 0
+          this.$refs.sand_sound.play()
         }
       }
     },
@@ -230,7 +265,7 @@ export default defineComponent({
       }, 100)
     },
     stopPress() {
-      if (this.$q.platform.is.mobile && this.mobileFlag < 2  && this.mode == 'check') {
+      if (this.$q.platform.is.mobile && this.mobileFlag < 2 && this.mode == 'check') {
         this.mobileFlag++
         return;
       }
@@ -275,7 +310,8 @@ export default defineComponent({
       thisItem: '',
       lastItem: '',
       animate: false,
-      mobileFlag: 0
+      mobileFlag: 0,
+      currentBrushTime: 0
     }
   }
 });
