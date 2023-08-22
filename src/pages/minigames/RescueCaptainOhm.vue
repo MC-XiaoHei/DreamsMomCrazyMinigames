@@ -108,7 +108,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
                    @mouseleave="stopPress"
                    @mouseup="stopPress"
                    @touchstart="startCheck"
-                   @touchcancel="stopPress"
+
                    @touchend="stopPress"/>
             </div>
           </div>
@@ -228,7 +228,7 @@ export default defineComponent({
     },
     stopPress() {
       if(this.mode == 'check'){
-        alert(":B")
+        // alert(":B")
       }
       this.stopTimer()
       if (!this.pressing) {
