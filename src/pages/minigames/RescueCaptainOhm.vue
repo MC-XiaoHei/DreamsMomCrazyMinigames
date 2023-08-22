@@ -199,6 +199,7 @@ export default defineComponent({
       }
     },
     startCheck() {
+      alert("AAA")
       this.mode = 'check'
       this.startPress()
     },
