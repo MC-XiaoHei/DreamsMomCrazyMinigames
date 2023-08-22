@@ -179,8 +179,6 @@ export default defineComponent({
         if (this.timer >= 10) {
           this.timer = 0
           this.refresh()
-          this.stopTimer()
-          this.startTimer()
         } else {
           // this.playAudio('Suspicious_gravel_break')
         }
@@ -213,15 +211,14 @@ export default defineComponent({
       this.startPress()
     },
     startPress() {
-      if (this.pressing && this.$q.platform.is.mobile) {
-        return
-      }
       if (this.$q.platform.is.mobile) {
         this.stopPress()
       }
+      if (this.pressing) {
+        return
+      }
       this.startTimer()
       this.pressing = true
-      console.log("AAA")
     },
     startTimer() {
       timerHandler = setInterval(() => {
