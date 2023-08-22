@@ -221,7 +221,7 @@ export default defineComponent({
       }
       this.startTimer()
       this.pressing = true
-      alert("AAA")
+      console.log("AAA")
     },
     startTimer() {
       timerHandler = setInterval(() => {
