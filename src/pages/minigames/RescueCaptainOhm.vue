@@ -217,10 +217,6 @@ export default defineComponent({
       if (this.pressing) {
         return
       }
-      if(this.mode == 'check'){
-        alert("AAA")
-
-      }
       this.startTimer()
       this.pressing = true
     },
@@ -231,6 +227,9 @@ export default defineComponent({
       }, 100)
     },
     stopPress() {
+      if(this.mode == 'check'){
+        alert(":B")
+      }
       this.stopTimer()
       if (!this.pressing) {
         return
