@@ -206,8 +206,7 @@ export default defineComponent({
     },
     startBreak(event: MouseEvent) {
       if (event.button == 2) {
-        this.mode = 'check'
-        this.startPress()
+        this.startCheck()
         return
       }
       this.mode = 'break'
@@ -222,6 +221,7 @@ export default defineComponent({
       }
       this.startTimer()
       this.pressing = true
+      alert("AAA")
     },
     startTimer() {
       timerHandler = setInterval(() => {
