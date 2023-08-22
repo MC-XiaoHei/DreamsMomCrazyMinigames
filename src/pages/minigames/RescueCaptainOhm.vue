@@ -60,22 +60,22 @@ import {vAutoAnimate} from '@formkit/auto-animate';
             </q-dialog>
             <div class="image-btn-container">
               <div class="image-container">
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_0.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_1.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_2.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_3.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_4.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_5.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_6.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_7.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_8.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/destroy_stage_9.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_0.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_1.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_2.png" style="display: none" alt=""/>
-                <img src="/minigame-assets/rescue-captain-ohm/suspicious_gravel_3.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_0.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_1.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_2.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_3.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_4.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_5.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_6.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_7.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_8.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_9.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_0.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_1.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_2.png" style="display: none" alt=""/>
+                <img src="/minigame-assets/rescue-captain-ohm/block/suspicious_gravel_3.png" style="display: none" alt=""/>
                 <img :class="{ 'animated-element': true, 'animate': animate, 'block-img': true, 'mc-img': true }"
-                     :src="'/minigame-assets/rescue-captain-ohm/' + blockSrc + '.png'"
+                     :src="'/minigame-assets/rescue-captain-ohm/block/' + blockSrc + '.png'"
                      alt=""/>
                 <img class="item-img mc-img"
                      v-if="isSuspicious"
@@ -84,7 +84,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
                      alt=""/>
                 <img class="overlay-img mc-img"
                      v-if="mode=='break' && timer >= 1"
-                     :src="'/minigame-assets/rescue-captain-ohm/destroy_stage_' + (timer>=1?(timer - 1):0).toString() + '.png'"
+                     :src="'/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_' + (timer>=1?(timer - 1):0).toString() + '.png'"
                      alt=""/>
               </div>
               <div class="overlay-div"
@@ -97,7 +97,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
             </div>
             <div class="image-btn-container">
               <q-img ref="container"
-                     src="/minigame-assets/rescue-captain-ohm/container.png"
+                     src="/minigame-assets/rescue-captain-ohm/gui/container.png"
                      alt=""
                      class="col-12 mc-img"
                      width="80px"
