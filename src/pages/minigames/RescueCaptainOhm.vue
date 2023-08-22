@@ -214,7 +214,7 @@ export default defineComponent({
       this.startPress()
     },
     startPress() {
-      if (this.$q.platform.is.mobile) {
+      if (this.$q.platform.is.mobile && this.mode == 'check') {
         this.stopPress()
       }
       if (this.pressing) {
@@ -230,7 +230,7 @@ export default defineComponent({
       }, 100)
     },
     stopPress() {
-      if (this.$q.platform.is.mobile && this.mobileFlag < 2) {
+      if (this.$q.platform.is.mobile && this.mobileFlag < 2  && this.mode == 'check') {
         this.mobileFlag++
         return;
       }
