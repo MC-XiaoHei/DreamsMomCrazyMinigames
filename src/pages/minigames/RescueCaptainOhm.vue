@@ -214,7 +214,7 @@ export default defineComponent({
       this.startPress()
     },
     startPress() {
-      if (this.pressing) {
+      if (this.pressing && !this.$q.platform.is.mobile) {
         return
       }
       this.startTimer()
