@@ -9,7 +9,7 @@ import MinigameCard from 'components/MinigameCard.vue';
                      icon="HappyPointedDripstone.png"
                      title="快乐的石笋！"
                      caption="Duang ~ ！"
-                     :style="'min-width:350px;max-width: 350px;transform: scale(' + scale + ')'">
+                     :style="'min-width:350px;max-width: 350px;transform: scale(' + scaleData + ')'">
         <template v-slot:info>
         </template>
         <div class="q-pa-md" style="min-width: 350px;max-width: 350px;">
@@ -41,18 +41,15 @@ import MinigameCard from 'components/MinigameCard.vue';
 <script lang="ts">
 
 import {defineComponent} from 'vue';
+import scale from 'pages/minigames/scale';
+
+let scaleData = 1.0
 
 export default defineComponent({
   name: 'HappyPointedDripstone',
   methods: {
     handleResize() {
-      if (window.innerHeight >= 1000) {
-        this.scale = 2.0
-      } else if (window.innerHeight >= 700) {
-        this.scale = 1.5
-      } else {
-        this.scale = 1.0
-      }
+      scaleData = scale()
     }
   },
   mounted() {
@@ -65,9 +62,7 @@ export default defineComponent({
     window.removeEventListener('resize', this.handleResize);
   },
   data() {
-    return {
-      scale: 1.0
-    }
+    return {}
   }
 });
 

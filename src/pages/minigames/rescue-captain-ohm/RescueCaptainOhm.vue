@@ -17,7 +17,7 @@ import MinigameCard from 'components/MinigameCard.vue';
                      icon="RescueCaptainOhm.webp"
                      title="拯救向导老板！"
                      caption="挖挖挖扫扫扫..."
-                     :style="'min-width:350px;max-width: 350px;transform: scale(' + scale + ')'">
+                     :style="'min-width:350px;max-width: 350px;transform: scale(' + scaleData + ')'">
         <template v-slot:info>
           <b>对于所有玩家：</b>
           <p>长按沙砾可以挖掘当前沙砾，长按刷子可以清扫当前沙砾！</p>
@@ -157,10 +157,12 @@ import {defineComponent, ref} from 'vue';
 import {seniorLootTable, simpleLootTable} from 'pages/minigames/rescue-captain-ohm/loot-table';
 import {Statistic, findUnlock} from 'pages/minigames/achievement';
 import achievements from 'pages/minigames/rescue-captain-ohm/achievements';
+import scale from 'pages/minigames/scale';
 
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
 let pixel: number
+let scaleData = 1.0
 let statistic: Statistic, achievement: Record<string, number | boolean>
 
 export default defineComponent({
@@ -349,13 +351,7 @@ export default defineComponent({
       this.timer = 0
     },
     handleResize() {
-      if (window.innerHeight >= 1000) {
-        this.scale = 2.0
-      } else if (window.innerHeight >= 700) {
-        this.scale = 1.5
-      } else {
-        this.scale = 1.0
-      }
+      scaleData = scale()
     }
   },
   data() {
@@ -380,8 +376,7 @@ export default defineComponent({
       statMsg: '挖掘方块：0 | 清理方块：0',
       noticePos: '10px',
       noticeTitle: '',
-      noticeContent: '',
-      scale: 1.0
+      noticeContent: ''
     }
   }
 });
