@@ -40,13 +40,18 @@ import MinigameCard from 'components/MinigameCard.vue';
 <script lang="ts">
 
 import {defineComponent} from 'vue';
-import scale from 'pages/minigames/scale';
 
 export default defineComponent({
   name: 'HappyPointedDripstone',
   methods: {
     handleResize() {
-      this.scale = scale(window.innerHeight)
+      if (window.innerHeight >= 1000) {
+        this.scale = 2.0
+      } else if (window.innerHeight >= 700) {
+        this.scale = 1.5
+      } else {
+        this.scale = 1.0
+      }
     }
   },
   mounted() {
