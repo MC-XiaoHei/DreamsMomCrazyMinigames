@@ -5,9 +5,9 @@
         <div class="col-md" style="min-width: 300px;max-width: 300px">
           <minigame-card ref="rescueCaptainOhm" icon="RescueCaptainOhm.webp" title="拯救向导老板！" caption="挖挖挖扫扫扫..." to="RescueCaptainOhm"/>
         </div>
-<!--        <div class="col-md" style="min-width: 300px;max-width: 300px">-->
-<!--          <minigame-card ref="rescueCaptainOhm" title="快乐的石笋！" caption="Duang ~ !" to="RescueCaptainOhm"/>-->
-<!--        </div>-->
+        <div class="col-md" style="min-width: 300px;max-width: 300px">
+          <minigame-card ref="happyPointedDripstone" icon="HappyPointedDripstone.png" title="快乐的石笋！" caption="Duang ~ !" to="HappyPointedDripstone"/>
+        </div>
       </div>
     </div>
   </q-page>

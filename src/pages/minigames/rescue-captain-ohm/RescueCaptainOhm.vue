@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import MinigameCard from 'components/MinigameCard.vue';
-import {vAutoAnimate} from '@formkit/auto-animate';
 </script>
-
 
 <template>
   <div ref="notice" class="notice" style="top:-65px">
@@ -29,7 +27,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
             如果你有能让原生浏览器不弹出以上窗口的办法，教教我吧（哭
           </p>
         </template>
-        <div class="q-pa-md">
+        <div class="q-pa-md" style="min-width: 350px;max-width: 350px">
           <div class="row container"
                oncontextmenu="return false">
             <q-dialog v-model="item">
@@ -151,7 +149,7 @@ import {vAutoAnimate} from '@formkit/auto-animate';
 <script lang="ts">
 
 import {defineComponent, ref} from 'vue';
-import {seniorLootTable, simpleLootTable} from 'pages/minigames/loot-table';
+import {seniorLootTable, simpleLootTable} from 'pages/minigames/rescue-captain-ohm/loot-table';
 import {achievements, Statistic, findUnlock} from 'pages/minigames/achievements';
 
 let timerHandler: string | number | NodeJS.Timeout | undefined

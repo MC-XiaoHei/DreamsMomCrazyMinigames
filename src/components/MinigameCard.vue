@@ -18,7 +18,7 @@
     <q-item>
       <q-item-section avatar v-if="icon != undefined">
         <q-avatar square size="64px">
-          <img :src="'/icons/' + icon" alt="Icon" class="icon">
+          <img :src="'/icons/' + icon" alt="Icon" class="icon mc-img">
         </q-avatar>
       </q-item-section>
       <q-item-section>
@@ -61,3 +61,10 @@ export default defineComponent({
   }
 });
 </script>
+
+<style>
+.mc-img {
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+</style>
