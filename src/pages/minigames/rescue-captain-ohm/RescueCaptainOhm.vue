@@ -5,8 +5,8 @@ import MinigameCard from 'components/MinigameCard.vue';
 <template>
   <q-page class="row items-center justify-evenly" style="overflow: hidden">
     <q-card style="width: 350px"
-         class="notice"
-         :style="{transform: `translateX(${noticePos})`}">
+            class="notice"
+            :style="{transform: `translateX(${noticePos})`}">
       <q-card-section class="full-width">
         <div class="text-subtitle1 text-left text-bold text-white" style="margin-left: 1rem">{{ noticeTitle }}</div>
         <div class="text-body2 text-left text-white" style="margin-left: 1rem">{{ noticeContent }}</div>
@@ -205,7 +205,7 @@ export default defineComponent({
         window.localStorage.setItem('achievement', JSON.stringify(achievement))
         this.noticePos = '-320px'
         this.noticeTitle = '达成成就！ ' + achievements[Object.keys(res)[0]].name
-        this.noticeContent = achievements[Object.keys(res)[0]].content
+        this.noticeContent = achievements[Object.keys(res)[0]].content.replace('%count',statistic.break_block.toString())
         achievementSoundElement.currentTime = 0
         achievementSoundElement.play()
         setTimeout(() => this.noticePos = '10px', 6000)
@@ -383,6 +383,7 @@ export default defineComponent({
 }
 
 .notice {
+  z-index: 4;
   image-rendering: pixelated;
   position: absolute;
   background-image: url('/minigame-assets/rescue-captain-ohm/gui/toasts.png');
