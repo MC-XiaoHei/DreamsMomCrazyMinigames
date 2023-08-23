@@ -17,7 +17,7 @@ import MinigameCard from 'components/MinigameCard.vue';
                      icon="RescueCaptainOhm.webp"
                      title="拯救向导老板！"
                      caption="挖挖挖扫扫扫..."
-                     style="max-width: 350px">
+                     :style="'min-width:350px;max-width: 350px;transform: scale(' + scale + ')'">
         <template v-slot:info>
           <b>对于所有玩家：</b>
           <p>长按沙砾可以挖掘当前沙砾，长按刷子可以清扫当前沙砾！</p>
@@ -173,6 +173,7 @@ export default defineComponent({
       window.localStorage.setItem('achievement', JSON.stringify({}))
     achievement = JSON.parse(window.localStorage.getItem('achievement') ?? '')
     this.saveStatistic()
+    this.handleResize()
   },
   methods: {
     setProgress(progress: number) {
@@ -205,7 +206,7 @@ export default defineComponent({
         window.localStorage.setItem('achievement', JSON.stringify(achievement))
         this.noticePos = '-320px'
         this.noticeTitle = '达成成就！ ' + achievements[Object.keys(res)[0]].name
-        this.noticeContent = achievements[Object.keys(res)[0]].content.replace('%count',statistic.break_block.toString())
+        this.noticeContent = achievements[Object.keys(res)[0]].content.replace('%count', statistic.break_block.toString())
         achievementSoundElement.currentTime = 0
         achievementSoundElement.play()
         setTimeout(() => this.noticePos = '10px', 6000)
@@ -340,6 +341,13 @@ export default defineComponent({
         }, 500)
       }
       this.timer = 0
+    },
+    handleResize() {
+      if (window.innerHeight >= 1000) {
+        this.scale = 2.0
+      } else {
+        this.scale = 1.0
+      }
     }
   },
   data() {
@@ -364,7 +372,8 @@ export default defineComponent({
       statMsg: '挖掘方块：0 | 清理方块：0',
       noticePos: '10px',
       noticeTitle: '',
-      noticeContent: ''
+      noticeContent: '',
+      scale: 1.0
     }
   }
 });

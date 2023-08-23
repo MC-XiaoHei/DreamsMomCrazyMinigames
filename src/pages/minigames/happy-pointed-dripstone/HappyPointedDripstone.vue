@@ -9,7 +9,7 @@ import MinigameCard from 'components/MinigameCard.vue';
                      icon="HappyPointedDripstone.png"
                      title="快乐的石笋！"
                      caption="Duang ~ ！"
-                     style="min-width:350px;max-width: 350px">
+                     :style="'min-width:350px;max-width: 350px;transform: scale(' + scale + ')'">
         <template v-slot:info>
         </template>
         <div class="q-pa-md" style="min-width: 350px;max-width: 350px;">
@@ -17,7 +17,7 @@ import MinigameCard from 'components/MinigameCard.vue';
           <div style="width:350px;height: 200px;background-color: black;margin-left:-16px">
 
           </div>
-          <div class="row container item-container">
+          <div class="row container item-container" style="margin-top: 1rem">
             <div class="col">
               <q-img src="/minigame-assets/happy-pointed-dripstone/item/jump_boost.png"
                      class="mc-img item"/>
@@ -43,9 +43,28 @@ import {defineComponent} from 'vue';
 
 export default defineComponent({
   name: 'HappyPointedDripstone',
-  methods: {},
+  methods: {
+    handleResize() {
+      if(window.innerHeight >= 1000) {
+        this.scale = 2.0
+      }else{
+        this.scale = 1.0
+      }
+    }
+  },
+  mounted() {
+    this.handleResize()
+  },
+  beforeMount() {
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  },
   data() {
-    return {}
+    return {
+      scale: 1.0
+    }
   }
 });
 
