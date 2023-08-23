@@ -13,7 +13,7 @@ import MinigameCard from 'components/MinigameCard.vue';
         <template v-slot:info>
         </template>
         <div class="q-pa-md" style="min-width: 350px;max-width: 350px;">
-          <div class="text-body1 text-center text-red">此游戏未完成</div>
+          <div class="text-body1 text-center text-red">此游戏尚未制作完成</div>
           <div class="text-body1 text-center">已帮助梦妈飞行0格 | 最高纪录114514格</div>
           <div style="width:350px;height: 200px;background-color: black;margin-left:-16px">
 
