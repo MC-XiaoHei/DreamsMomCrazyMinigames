@@ -175,6 +175,12 @@ export default defineComponent({
     this.saveStatistic()
     this.handleResize()
   },
+  beforeMount() {
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  },
   methods: {
     setProgress(progress: number) {
       switch (progress) {
