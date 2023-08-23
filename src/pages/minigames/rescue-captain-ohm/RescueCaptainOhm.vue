@@ -157,6 +157,7 @@ import {defineComponent, ref} from 'vue';
 import {seniorLootTable, simpleLootTable} from 'pages/minigames/rescue-captain-ohm/loot-table';
 import {Statistic, findUnlock} from 'pages/minigames/achievement';
 import achievements from 'pages/minigames/rescue-captain-ohm/achievements';
+import scale from 'pages/minigames/scale';
 
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
@@ -349,11 +350,7 @@ export default defineComponent({
       this.timer = 0
     },
     handleResize() {
-      if (window.innerHeight >= 1000) {
-        this.scale = 2.0
-      } else {
-        this.scale = 1.0
-      }
+      this.scale = scale(window.innerHeight)
     }
   },
   data() {
