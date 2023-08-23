@@ -3,10 +3,10 @@ import MinigameCard from 'components/MinigameCard.vue';
 </script>
 
 <template>
-  <div ref="notice" class="notice" style="top:-65px">
-    <div ref="notice_title" class="notice_title" style="top:10px;left:40px"></div>
-    <div ref="notice_content" class="notice_content" style="top:5px;left:40px"></div>
-  </div>
+<!--  <div ref="notice" class="notice" style="top:-65px">-->
+<!--    <div ref="notice_title" class="notice_title" style="top:10px;left:40px"></div>-->
+<!--    <div ref="notice_content" class="notice_content" style="top:5px;left:40px"></div>-->
+<!--  </div>-->
   <q-page class="row items-center justify-evenly">
     <div class="q-pa-md row container">
       <minigame-card ref="rescueCaptainOhm"
@@ -71,7 +71,7 @@ import MinigameCard from 'components/MinigameCard.vue';
               <audio ref="destroy_sound" preload="auto"
                      src="/minigame-assets/rescue-captain-ohm/sound/gravel_dig.mp3"></audio>
             </div>
-            <div ref="stat"></div>
+            <div ref="stat">{{statMsg}}</div>
             <div class="image-btn-container">
               <div class="image-container">
                 <img src="/minigame-assets/rescue-captain-ohm/overlay/destroy_stage_0.png" style="display: none"
@@ -150,12 +150,18 @@ import MinigameCard from 'components/MinigameCard.vue';
 
 import {defineComponent, ref} from 'vue';
 import {seniorLootTable, simpleLootTable} from 'pages/minigames/rescue-captain-ohm/loot-table';
-import {achievements, Statistic, findUnlock} from 'pages/minigames/achievements';
+import {Statistic, findUnlock, OnceAchievement, StageAchievement, Achievement, getStageByCount} from 'pages/minigames/achievement';
 
 let timerHandler: string | number | NodeJS.Timeout | undefined
 let checkTimerHandler: string | number | NodeJS.Timeout | undefined
 let pixel: number
 let statistic: Statistic, achievement: Record<string, number | boolean>
+
+export const achievements: Record<string, Achievement> = {
+  'first_brush': new OnceAchievement('开启你的考古之旅', '找到一个可疑的方块', (statistic: Statistic) => statistic.brush_block >= 1),
+  'break_block': new StageAchievement('考古之路', '挖掘%count个方块', [10, 50, 100, 300], (count: Array<number>, statistic: Statistic) => getStageByCount(count, statistic.break_block)),
+  'brush_block': new StageAchievement('收藏之路', '清理%count个可疑的方块', [10, 50, 100, 300], (count: Array<number>, statistic: Statistic) => getStageByCount(count, statistic.brush_block))
+}
 
 export default defineComponent({
   name: 'RescueCaptainOhm',
@@ -188,20 +194,21 @@ export default defineComponent({
     },
     saveStatistic() {
       window.localStorage.setItem('statistic', JSON.stringify(statistic))
-      this.$refs.stat.innerText = `挖掘方块：${statistic.break_block} | 清理方块：${statistic.brush_block}`
+      this.statMsg = `挖掘方块：${statistic.break_block} | 清理方块：${statistic.brush_block}`
       this.checkAchievement()
     },
     checkAchievement() {
-      let res = findUnlock(statistic, achievement)
+      const res = findUnlock(achievements,statistic, achievement)
+      const achievementSoundElement = this.$refs.achievement_sound as HTMLAudioElement
       if (Object.keys(res).length > 0) {
         Object.keys(res).forEach(id => achievement[id] = res[id])
         window.localStorage.setItem('achievement', JSON.stringify(achievement))
-        this.$refs.notice_title.innerHTML = '达成成就！ ' + achievements[Object.keys(res)[0]].name
-        this.$refs.notice_content.innerHTML = achievements[Object.keys(res)[0]].content
-        this.$refs.achievement_sound.currentTime = 0
-        this.$refs.achievement_sound.play()
-        this.$refs.notice.style.left = 'calc(100% - 320px)'
-        setTimeout(() => this.$refs.notice.style.left = '100%', 6000)
+        // this.$refs.notice_title.innerHTML = '达成成就！ ' + achievements[Object.keys(res)[0]].name
+        // this.$refs.notice_content.innerHTML = achievements[Object.keys(res)[0]].content
+        achievementSoundElement.currentTime = 0
+        achievementSoundElement.play()
+        // this.$refs.notice.style.left = 'calc(100% - 320px)'
+        // setTimeout(() => this.$refs.notice.style.left = '100%', 6000)
       }
     },
     randomItem() {
@@ -234,15 +241,17 @@ export default defineComponent({
     onUpdateTimer() {
       if (this.mode == 'break') {
         if (this.timer >= 10) {
+          const destroySoundElement = this.$refs.destroy_sound as HTMLAudioElement
           this.timer = 0
           statistic.break_block++
           this.saveStatistic()
-          this.$refs.destroy_sound.currentTime = 0
-          this.$refs.destroy_sound.play()
+          destroySoundElement.currentTime = 0
+          destroySoundElement.play()
           this.refresh()
         } else if ([2, 5, 7].indexOf(this.timer) != -1) {
-          this.$refs.dig_sound.currentTime = 0
-          this.$refs.dig_sound.play()
+          const digSoundElement = this.$refs.dig_sound as HTMLAudioElement
+          digSoundElement.currentTime = 0
+          digSoundElement.play()
         }
       } else if (this.isSuspicious) {
         this.checkTimer = Math.round(this.timer / 14)
@@ -259,15 +268,17 @@ export default defineComponent({
             this.item = true
           }
           setTimeout(() => {
-            this.$refs.pop_sound.currentTime = 0
-            this.$refs.pop_sound.play()
+            const popSoundElement = this.$refs.pop_sound as HTMLAudioElement
+            popSoundElement.currentTime = 0
+            popSoundElement.play()
           }, 500)
           this.stopTimer()
           this.refresh()
         } else if (this.checkTimer != this.currentBrushTime) {
           this.currentBrushTime = this.checkTimer
-          this.$refs.sand_sound.currentTime = 0
-          this.$refs.sand_sound.play()
+          const sandSoundElement = this.$refs.sand_sound as HTMLAudioElement
+          sandSoundElement.currentTime = 0
+          sandSoundElement.play()
         }
       }
     },
@@ -349,7 +360,8 @@ export default defineComponent({
       lastItem: '',
       animate: false,
       mobileFlag: 0,
-      currentBrushTime: 0
+      currentBrushTime: 0,
+      statMsg: '挖掘方块：0 | 清理方块：0'
     }
   }
 });
