@@ -20,7 +20,7 @@ const BlockIdMap = new Map([
     [18, 'diorite'],
     [19, 'granite'],
     [20, 'andesite'],
-    [21, 'toff'],
+    [21, 'tuff'],
     [22, 'deepslate']
 ])
 
