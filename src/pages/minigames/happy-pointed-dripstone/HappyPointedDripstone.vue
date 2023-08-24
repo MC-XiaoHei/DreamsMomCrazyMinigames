@@ -65,8 +65,8 @@ export default defineComponent({
     },
     generateNext() {
       this.map.shift()
-      let floor = 13
-      let ceiling = 14
+      let floor = 22
+      let ceiling = 22
       this.map.push([ceiling, 0, 0, 0, 0, 0, 1, floor])
     },
     useFireworkRocket() {
@@ -79,7 +79,6 @@ export default defineComponent({
       if (this.timerRunning) {
         return
       }
-      this.generateNext()
       this.timerRunning = true
       timerHandler = setInterval(() => {
         if (this.mapMarginLeft <= -32) {
@@ -106,18 +105,18 @@ export default defineComponent({
   data() {
     return {
       map: [
-        [0, 0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 0, 0, 0, 2],
-        [0, 0, 0, 0, 0, 0, 0, 3],
-        [0, 0, 0, 0, 0, 0, 0, 4],
-        [0, 0, 0, 0, 0, 0, 0, 5],
-        [0, 0, 0, 0, 0, 0, 0, 6],
-        [0, 0, 0, 0, 0, 0, 0, 7],
-        [0, 0, 0, 0, 0, 0, 0, 8],
-        [0, 0, 0, 0, 0, 0, 0, 9],
-        [0, 0, 0, 0, 0, 0, 0, 10],
-        [0, 0, 0, 0, 0, 0, 0, 11],
-        [0, 0, 0, 0, 0, 0, 0, 12]
+        [15, 13, 13, 13, 13, 22, 22, 22],
+        [15, 13, 0, 0, 22, 22, 22, 22],
+        [0, 0, 0, 0, 0, 0, 22, 22],
+        [0, 0, 0, 0, 0, 0, 0, 22],
+        [0, 0, 0, 0, 0, 0, 0, 22],
+        [0, 0, 0, 0, 0, 0, 0, 22],
+        [0, 0, 0, 0, 0, 0, 0, 22],
+        [0, 0, 0, 0, 0, 0, 0, 22],
+        [15, 0, 0, 0, 0, 0, 0, 22],
+        [15, 13, 0, 0, 0, 0, 0, 22],
+        [13, 13, 0, 0, 0, 0, 0, 22],
+        [22, 22, 0, 0, 0, 0, 0, 22]
       ],
       mapMarginLeft: 0,
       timerRunning: false,

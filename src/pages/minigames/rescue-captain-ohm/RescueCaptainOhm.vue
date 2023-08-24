@@ -216,7 +216,9 @@ export default defineComponent({
         window.localStorage.setItem('achievement', JSON.stringify(achievement))
         this.noticePos = '-320px'
         this.noticeTitle = '达成成就！ ' + achievements[Object.keys(res)[0]].name
-        this.noticeContent = achievements[Object.keys(res)[0]].content.replace('%count', statistic.break_block.toString())
+        this.noticeContent = achievements[Object.keys(res)[0]].content
+            .replace('%brush_count', statistic.brush_block.toString())
+            .replace('%break_count', statistic.break_block.toString())
         achievementSoundElement.currentTime = 0
         achievementSoundElement.play()
         setTimeout(() => this.noticePos = '10px', 6000)
