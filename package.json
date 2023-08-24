@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.7.0",
-    "@quasar/cli": "^2.2.2",
+    "@quasar/cli": "^2.2.3",
     "@quasar/extras": "^1.16.4",
     "@vercel/analytics": "^1.0.2",
     "axios": "^1.2.1",

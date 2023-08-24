@@ -7,7 +7,7 @@
           <div style="height: 1rem"/>
           <p>
             本站致力于让妈粉能 <b>享受</b> 到和梦妈一样的坐牢体验！<br/>
-            开发者就有MC_XiaoHei一个uwu <span class="roast">还有个冰火</span>
+            开发者为 MC_XiaoHei <span class="roast">还有个冰火</span>
           </p>
         </div>
       </q-card>
