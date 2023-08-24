@@ -177,6 +177,9 @@ export default defineComponent({
     this.saveStatistic()
     this.handleResize()
   },
+  created(){
+    this.handleResize()
+  },
   beforeMount() {
     window.addEventListener('resize', this.handleResize);
   },

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MinigameCard from 'components/MinigameCard.vue';
+import getBlock from 'pages/minigames/happy-pointed-dripstone/block-id-map';
 </script>
 
 <template>
@@ -12,18 +13,28 @@ import MinigameCard from 'components/MinigameCard.vue';
                      :style="'min-width:350px;max-width: 350px;transform: scale(' + scaleData + ')'">
         <template v-slot:info>
         </template>
-        <div class="q-pa-md" style="min-width: 350px;max-width: 350px;">
+        <div class="q-pa-md" style="min-width: 350px;max-width: 350px;overflow: hidden">
           <div class="text-body1 text-center text-red">此游戏尚未制作完成</div>
           <div class="text-body1 text-center">已帮助梦妈飞行0格 | 最高纪录114514格</div>
-          <div style="width:350px;height: 200px;background-color: black;margin-left:-16px">
-
+          <div :style="{
+            width:'350px',
+            height: '256px',
+            marginLeft: -16 + mapMarginLeft + 'px'}" @click="startTimer">
+            <div v-for="row in 8" :key="row" class="row" style="min-width: 384px;">
+              <div v-for="col in 12" :key="col" class="col" style="min-width: 32px;min-height: 32px;max-height: 32px">
+                <img
+                    :src="'/minigame-assets/happy-pointed-dripstone/block/' + getBlock(<number>map.at(col-1).at(row-1)) + '.png'"
+                    class="full-width full-height mc-img"
+                    alt="Image"/>
+              </div>
+            </div>
           </div>
           <div class="row container item-container" style="margin-top: 1rem">
             <div class="col">
               <q-img src="/minigame-assets/happy-pointed-dripstone/item/jump_boost.png"
                      class="mc-img item"/>
             </div>
-            <div class="col">
+            <div class="col" @click="useFireworkRocket">
               <q-img src="/minigame-assets/happy-pointed-dripstone/item/firework_rocket.png"
                      class="mc-img item"/>
             </div>
@@ -43,16 +54,47 @@ import MinigameCard from 'components/MinigameCard.vue';
 import {defineComponent} from 'vue';
 import scale from 'pages/minigames/scale';
 
-let scaleData = 1.0
+let scaleData: number
+let timerHandler: string | number | NodeJS.Timeout | undefined
 
 export default defineComponent({
   name: 'HappyPointedDripstone',
   methods: {
     handleResize() {
       scaleData = scale()
+    },
+    generateNext() {
+      this.map.shift()
+      let floor = 13
+      let ceiling = 14
+      this.map.push([ceiling, 0, 0, 0, 0, 0, 1, floor])
+    },
+    useFireworkRocket() {
+      this.moveInterval = 0.8
+      setTimeout(() => {
+        this.moveInterval = 0.4
+      }, 1000)
+    },
+    startTimer() {
+      if (this.timerRunning) {
+        return
+      }
+      this.generateNext()
+      this.timerRunning = true
+      timerHandler = setInterval(() => {
+        if (this.mapMarginLeft <= -32) {
+          this.generateNext()
+          this.mapMarginLeft = 0
+        } else {
+          this.mapMarginLeft -= this.moveInterval;
+        }
+      }, 10);
+    },
+    stopTimer() {
+      clearInterval(timerHandler);
     }
   },
-  mounted() {
+  created() {
     this.handleResize()
   },
   beforeMount() {
@@ -62,7 +104,25 @@ export default defineComponent({
     window.removeEventListener('resize', this.handleResize);
   },
   data() {
-    return {}
+    return {
+      map: [
+        [0, 0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 2],
+        [0, 0, 0, 0, 0, 0, 0, 3],
+        [0, 0, 0, 0, 0, 0, 0, 4],
+        [0, 0, 0, 0, 0, 0, 0, 5],
+        [0, 0, 0, 0, 0, 0, 0, 6],
+        [0, 0, 0, 0, 0, 0, 0, 7],
+        [0, 0, 0, 0, 0, 0, 0, 8],
+        [0, 0, 0, 0, 0, 0, 0, 9],
+        [0, 0, 0, 0, 0, 0, 0, 10],
+        [0, 0, 0, 0, 0, 0, 0, 11],
+        [0, 0, 0, 0, 0, 0, 0, 12]
+      ],
+      mapMarginLeft: 0,
+      timerRunning: false,
+      moveInterval: 0.4
+    }
   }
 });
 
