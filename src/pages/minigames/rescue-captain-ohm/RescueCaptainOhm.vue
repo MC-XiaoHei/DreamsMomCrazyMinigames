@@ -32,8 +32,7 @@ import MinigameCard from 'components/MinigameCard.vue';
           </p>
         </template>
         <div class="q-pa-md" style="min-width: 350px;max-width: 350px">
-          <div class="row container"
-               oncontextmenu="return false">
+          <div class="row container">
             <q-dialog v-model="item">
               <q-card>
                 <q-card-section>
