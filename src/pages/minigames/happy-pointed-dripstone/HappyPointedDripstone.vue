@@ -66,7 +66,7 @@ import getBlock from 'pages/minigames/happy-pointed-dripstone/block-id-map';
               '.png'
             "
           />
-          <div class="text-body1 text-center text-red">此游戏尚未制作完成</div>
+          <div class="text-body1 text-center text-red">此游戏还是个半成品</div>
           <div class="text-body1 text-center">
             已帮助梦妈飞行{{ flightLength }}格 | 最高纪录114514格
           </div>
