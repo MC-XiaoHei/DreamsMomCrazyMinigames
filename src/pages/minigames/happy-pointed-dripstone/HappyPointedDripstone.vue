@@ -20,11 +20,11 @@ import getBlock from 'pages/minigames/happy-pointed-dripstone/block-id-map';
             点击烟花火箭加速飞行，点击三叉戟掷出三叉戟！
           </p>
           <b>三叉戟没做完捏uwu</b><br/><br/>
-<!--          <b>对于电脑玩家：</b>-->
-<!--          <p>-->
-<!--            空格开始游戏，也可以帮助梦妈增加高度，<br/>-->
-<!--            W加速飞行，R掷出三叉戟！-->
-<!--          </p>-->
+          <!--          <b>对于电脑玩家：</b>-->
+          <!--          <p>-->
+          <!--            空格开始游戏，也可以帮助梦妈增加高度，<br/>-->
+          <!--            W加速飞行，R掷出三叉戟！-->
+          <!--          </p>-->
           <b>游戏设定：</b>
           <p>
             梦妈会自己往下掉的（真笨！）<br/>
@@ -45,21 +45,23 @@ import getBlock from 'pages/minigames/happy-pointed-dripstone/block-id-map';
           <q-img v-for="id in 22" :key="id" style="display: none"
                  :src="'/minigame-assets/happy-pointed-dripstone/block/' + getBlock(id) + '.png'"/>
           <div class="text-body1 text-center text-red">此游戏尚未制作完成</div>
-          <div class="text-body1 text-center">已帮助梦妈飞行0格 | 最高纪录114514格</div>
-          <div :style="{
-            width:'350px',
-            height: '256px',
-            marginLeft: -16 + mapMarginLeft + 'px'}" @click="startTimer">
-            <div v-for="row in 8" :key="row" class="row" style="min-width: 384px;">
-              <div v-for="col in 12" :key="col" class="col" style="min-width: 32px;min-height: 32px;max-height: 32px">
-                <img
-                    :src="'/minigame-assets/happy-pointed-dripstone/block/' + getBlock(<number>map.at(col-1).at(row-1)) + '.png'"
-                    class="full-width full-height mc-img"
-                    alt="Image"/>
+          <div class="text-body1 text-center">已帮助梦妈飞行{{ flightLength }}格 | 最高纪录114514格</div>
+          <div style="width: 350px;height: 256px;position: relative;" class="fit">
+            <div :style="{marginLeft: -16 + mapMarginLeft + 'px',}"
+                 @click="startTimer">
+              <div v-for="row in 8" :key="row" class="row" style="min-width: 384px;">
+                <div v-for="col in 12" :key="col" class="col" style="min-width: 32px;min-height: 32px;max-height: 32px">
+                  <img
+                      :src="'/minigame-assets/happy-pointed-dripstone/block/' + getBlock(<number>map.at(col-1).at(row-1)) + '.png'"
+                      class="full-width full-height mc-img"
+                      alt="Image"/>
+                </div>
               </div>
             </div>
+            <q-img src="/minigame-assets/happy-pointed-dripstone/skin/DreamsMa/head.png"
+                   class="head" :style="'margin-top:' + playerOffset + 'px'"/>
           </div>
-<!--          <q-img src="/minigame-assets/happy-pointed-dripstone/skin/DreamsMa/head.png" sizes="32px"/>-->
+
           <div class="row container item-container" style="margin-top: 1rem">
             <div class="col">
               <q-img src="/minigame-assets/happy-pointed-dripstone/item/jump_boost.png"
@@ -172,6 +174,7 @@ export default defineComponent({
       this.timerRunning = true
       timerHandler = setInterval(() => {
         if (this.mapMarginLeft <= -32) {
+          this.flightLength++
           this.generateNext()
           this.mapMarginLeft = 0
           this.stopTimer()
@@ -217,7 +220,9 @@ export default defineComponent({
       timerRunning: false,
       moveInterval: 0.4,
       showSkinAuthorization: false,
-      generateCd: 3
+      generateCd: 3,
+      flightLength: 0,
+      playerOffset:0
     }
   }
 });
@@ -250,6 +255,15 @@ export default defineComponent({
   background-size: 240px 80px;
   max-width: 240px;
   min-height: 80px;
+}
+
+.head {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
 }
 
 </style>
