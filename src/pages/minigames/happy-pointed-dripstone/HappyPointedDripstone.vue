@@ -6,20 +6,24 @@ import getBlock from 'pages/minigames/happy-pointed-dripstone/block-id-map';
 <template>
   <q-page class="row items-center justify-evenly">
     <div class="q-pa-md row container">
-      <minigame-card ref="happyPointedDripstone"
-                     icon="HappyPointedDripstone.png"
-                     title="快乐的石笋！"
-                     caption="Duang ~ ！"
-                     :style="'min-width:350px;max-width: 350px;transform: scale(' + scaleData + ')'">
+      <minigame-card
+        ref="happyPointedDripstone"
+        icon="HappyPointedDripstone.png"
+        title="快乐的石笋！"
+        caption="Duang ~ ！"
+        :style="
+          'min-width:350px;max-width: 350px;transform: scale(' + scaleData + ')'
+        "
+      >
         <template v-slot:info>
           <b>游戏规则：</b>
           <p>通过控制梦妈飞行的高度帮助梦妈躲避障碍！</p>
           <b>对于所有玩家：</b>
           <p>
-            点击开始游戏，点击跳跃按钮帮助梦妈增加高度，<br/>
+            点击开始游戏，点击跳跃按钮帮助梦妈增加高度，<br />
             点击烟花火箭加速飞行，点击三叉戟掷出三叉戟！
           </p>
-          <b>三叉戟没做完捏uwu</b><br/><br/>
+          <b>三叉戟没做完捏uwu</b><br /><br />
           <!--          <b>对于电脑玩家：</b>-->
           <!--          <p>-->
           <!--            空格开始游戏，也可以帮助梦妈增加高度，<br/>-->
@@ -27,53 +31,98 @@ import getBlock from 'pages/minigames/happy-pointed-dripstone/block-id-map';
           <!--          </p>-->
           <b>游戏设定：</b>
           <p>
-            梦妈会自己往下掉的（真笨！）<br/>
-            三叉戟可以破坏石锥！而且自带忠诚uwu<br/>
-            烟花火箭有5秒的CD捏！<br/>
+            梦妈会自己往下掉的（真笨！）<br />
+            三叉戟可以破坏石锥！而且自带忠诚uwu<br />
+            烟花火箭有5秒的CD捏！<br />
             碰到任何方块梦妈都会失败（好脆）
           </p>
           <span>
             <b>皮肤已经经过梦妈本人授权！</b>
-            <q-btn flat color="green" class="text-center" size="10px"
-                   :label="showSkinAuthorization?'点击隐藏！':'点击显示！'"
-                   @click="showSkinAuthorization = !showSkinAuthorization"/>
+            <q-btn
+              flat
+              color="green"
+              class="text-center"
+              size="10px"
+              :label="showSkinAuthorization ? '点击隐藏！' : '点击显示！'"
+              @click="showSkinAuthorization = !showSkinAuthorization"
+            />
           </span>
-          <q-img v-if="showSkinAuthorization"
-                 src="/minigame-assets/happy-pointed-dripstone/skin/DreamsMa/authorization.png"/>
+          <q-img
+            v-if="showSkinAuthorization"
+            src="/minigame-assets/happy-pointed-dripstone/skin/DreamsMa/authorization.png"
+          />
         </template>
-        <div class="q-pa-md" style="min-width: 350px;max-width: 350px;overflow: hidden">
-          <q-img v-for="id in 22" :key="id" style="display: none"
-                 :src="'/minigame-assets/happy-pointed-dripstone/block/' + getBlock(id) + '.png'"/>
+        <div
+          class="q-pa-md"
+          style="min-width: 350px; max-width: 350px; overflow: hidden"
+        >
+          <q-img
+            v-for="id in 22"
+            :key="id"
+            style="display: none"
+            :src="
+              '/minigame-assets/happy-pointed-dripstone/block/' +
+              getBlock(id) +
+              '.png'
+            "
+          />
           <div class="text-body1 text-center text-red">此游戏尚未制作完成</div>
-          <div class="text-body1 text-center">已帮助梦妈飞行{{ flightLength }}格 | 最高纪录114514格</div>
-          <div style="width: 350px;height: 256px;position: relative;" class="fit">
-            <div :style="{marginLeft: -16 + mapMarginLeft + 'px',}"
-                 @click="startTimer">
-              <div v-for="row in 8" :key="row" class="row" style="min-width: 384px;">
-                <div v-for="col in 12" :key="col" class="col" style="min-width: 32px;min-height: 32px;max-height: 32px">
+          <div class="text-body1 text-center">
+            已帮助梦妈飞行{{ flightLength }}格 | 最高纪录114514格
+          </div>
+          <div
+            style="width: 350px; height: 256px; position: relative"
+            class="fit"
+          >
+            <div
+              :style="{ marginLeft: -16 + mapMarginLeft + 'px' }"
+              @click="startGame"
+            >
+              <div
+                v-for="row in 8"
+                :key="row"
+                class="row"
+                style="min-width: 384px"
+              >
+                <div
+                  v-for="col in 12"
+                  :key="col"
+                  class="col"
+                  style="min-width: 32px; min-height: 32px; max-height: 32px"
+                >
                   <img
-                      :src="'/minigame-assets/happy-pointed-dripstone/block/' + getBlock(<number>map.at(col-1).at(row-1)) + '.png'"
-                      class="full-width full-height mc-img"
-                      alt="Image"/>
+                    :src="'/minigame-assets/happy-pointed-dripstone/block/' + getBlock(<number>map.at(col-1).at(row-1)) + '.png'"
+                    class="full-width full-height mc-img"
+                    alt="Image"
+                  />
                 </div>
               </div>
             </div>
-            <q-img src="/minigame-assets/happy-pointed-dripstone/skin/DreamsMa/head.png"
-                   class="head" :style="'margin-top:' + playerOffset + 'px'"/>
+            <q-img
+              src="/minigame-assets/happy-pointed-dripstone/skin/DreamsMa/head.png"
+              class="head"
+              :style="'margin-top:' + playerOffset + 'px'"
+            />
           </div>
 
           <div class="row container item-container" style="margin-top: 1rem">
-            <div class="col">
-              <q-img src="/minigame-assets/happy-pointed-dripstone/item/jump_boost.png"
-                     class="mc-img item"/>
+            <div class="col" @click="onJump">
+              <q-img
+                src="/minigame-assets/happy-pointed-dripstone/item/jump_boost.png"
+                class="mc-img item"
+              />
             </div>
             <div class="col" @click="useFireworkRocket">
-              <q-img src="/minigame-assets/happy-pointed-dripstone/item/firework_rocket.png"
-                     class="mc-img item"/>
+              <q-img
+                src="/minigame-assets/happy-pointed-dripstone/item/firework_rocket.png"
+                class="mc-img item"
+              />
             </div>
             <div class="col">
-              <q-img src="/minigame-assets/happy-pointed-dripstone/item/trident.png"
-                     class="mc-img item"/>
+              <q-img
+                src="/minigame-assets/happy-pointed-dripstone/item/trident.png"
+                class="mc-img item"
+              />
             </div>
           </div>
         </div>
@@ -83,70 +132,74 @@ import getBlock from 'pages/minigames/happy-pointed-dripstone/block-id-map';
 </template>
 
 <script lang="ts">
-
-import {defineComponent} from 'vue';
+import { defineComponent } from 'vue';
 import scale from 'pages/minigames/scale';
+import checkImpact from 'pages/minigames/happy-pointed-dripstone/block-impact-map';
 
-let scaleData: number
-let timerHandler: string | number | NodeJS.Timeout | undefined
+let scaleData: number;
+let timerHandler: string | number | NodeJS.Timeout | undefined;
+let jumpTimerHandler: string | number | NodeJS.Timeout | undefined;
+let impactCheckTimerHandler: string | number | NodeJS.Timeout | undefined;
 
 export default defineComponent({
   name: 'HappyPointedDripstone',
   methods: {
     handleResize() {
-      scaleData = scale()
+      scaleData = scale();
     },
     generateNext() {
-      this.map.shift()
-      let floor = 22
-      let ceiling = 22
-      let newMap = this.generateObstacle()
-      newMap.push(floor)
-      newMap.unshift(ceiling)
-      this.map.push(newMap)
+      this.map.shift();
+      let floor = 22;
+      let ceiling = 22;
+      let newMap = this.generateObstacle();
+      newMap.push(floor);
+      newMap.unshift(ceiling);
+      this.map.push(newMap);
     },
     generateObstacle() {
-      let result: number[] = [0, 0, 0, 0, 0, 0]
+      let result: number[] = [0, 0, 0, 0, 0, 0];
       if (this.generateCd != 3) {
-        this.generateCd++
-        return result
+        this.generateCd++;
+        return result;
       }
-      this.generateCd = 0
-      let type = Math.floor(Math.random() * 2) + 1
+      this.generateCd = 0;
+      let type = Math.floor(Math.random() * 2) + 1;
       if (type <= 2) {
-        let length = type == 3 ? 6 : Math.floor(Math.random() * 3) + 2
-        if (type == 1) { // 钟乳石
+        let length = type == 3 ? 6 : Math.floor(Math.random() * 3) + 2;
+        if (type == 1) {
+          // 钟乳石
           switch (length) {
             case 2: {
-              result[0] = 8
-              result[1] = 9
-              break
+              result[0] = 8;
+              result[1] = 9;
+              break;
             }
             default: {
-              result[0] = 6
+              result[0] = 6;
               for (let i = 1; i <= length - 3; i++) {
-                result[i] = 7
+                result[i] = 7;
               }
-              result[length - 2] = 8
-              result[length - 1] = 9
-              break
+              result[length - 2] = 8;
+              result[length - 1] = 9;
+              break;
             }
           }
-        } else { // 石笋
+        } else {
+          // 石笋
           switch (length) {
             case 2: {
-              result[5] = 3
-              result[4] = 4
-              break
+              result[5] = 3;
+              result[4] = 4;
+              break;
             }
             default: {
-              result[5] = 1
+              result[5] = 1;
               for (let i = 1; i <= length - 3; i++) {
-                result[5 - i] = 2
+                result[5 - i] = 2;
               }
-              result[7 - length] = 3
-              result[6 - length] = 4
-              break
+              result[7 - length] = 3;
+              result[6 - length] = 4;
+              break;
             }
           }
         }
@@ -159,38 +212,93 @@ export default defineComponent({
         //     block += 13
         //   }
       }
-      return result
+      return result;
+    },
+    onJump() {
+      if (!this.gameRunning) {
+        return;
+      }
+      clearInterval(jumpTimerHandler);
+      this.jumpVelocity = 2;
+      jumpTimerHandler = setInterval(() => {
+        this.playerOffset -= this.jumpVelocity;
+        this.jumpVelocity -= 0.1;
+      }, 10);
     },
     useFireworkRocket() {
-      this.moveInterval = 0.8
+      if (!this.gameRunning) {
+        return;
+      }
+      this.moveInterval = 0.8;
       setTimeout(() => {
-        this.moveInterval = 0.4
-      }, 1000)
+        this.moveInterval = 0.4;
+      }, 1000);
+    },
+    startGame() {
+      if (this.gameStarted) {
+        this.onJump();
+        return;
+      }
+      this.gameRunning = true;
+      this.gameStarted = true;
+      this.onJump();
+      this.startTimer();
+      this.startImpactCheckTimer();
+    },
+    startImpactCheckTimer() {
+      impactCheckTimerHandler = setInterval(() => {
+        this.impactCheckTimerCnt++;
+        if (this.playerOffset >= 80 || this.playerOffset <= -80) {
+          this.stopGame();
+          return;
+        }
+        const y = this.playerOffset + 112;
+        const blockY = (y / 32) | 0;
+        if (
+          checkImpact(32 - this.mapMarginLeft, this.map.at(5).at(blockY)) ||
+          checkImpact(-this.mapMarginLeft, this.map.at(6).at(blockY)) ||
+          checkImpact(32 - this.mapMarginLeft, this.map.at(5).at(blockY + 1)) ||
+          checkImpact(-this.mapMarginLeft, this.map.at(6).at(blockY + 1))
+        ) {
+          this.stopGame();
+          return;
+        }
+        if (this.impactCheckTimerCnt >= 100) {
+          clearInterval(impactCheckTimerHandler);
+          this.startImpactCheckTimer();
+        }
+      }, 10);
+    },
+    stopGame() {
+      this.gameRunning = false;
+      clearInterval(impactCheckTimerHandler);
+      clearInterval(jumpTimerHandler);
+      this.stopTimer();
     },
     startTimer() {
       if (this.timerRunning) {
-        return
+        return;
       }
-      this.timerRunning = true
+      this.timerRunning = true;
       timerHandler = setInterval(() => {
         if (this.mapMarginLeft <= -32) {
-          this.flightLength++
-          this.generateNext()
-          this.mapMarginLeft = 0
-          this.stopTimer()
-          this.startTimer()
+          this.flightLength++;
+          this.generateNext();
+          this.mapMarginLeft = 0;
+          this.stopTimer();
+          this.startTimer();
         } else {
           this.mapMarginLeft -= this.moveInterval;
         }
       }, 10);
     },
     stopTimer() {
-      this.timerRunning = false
+      this.timerRunning = false;
       clearInterval(timerHandler);
-    }
+    },
   },
   created() {
-    this.handleResize()
+    this.handleResize();
   },
   beforeMount() {
     window.addEventListener('resize', this.handleResize);
@@ -210,11 +318,11 @@ export default defineComponent({
         [0, 0, 0, 0, 0, 0, 0, 22],
         [0, 0, 0, 0, 0, 0, 0, 22],
         [15, 0, 0, 0, 0, 0, 0, 22],
-        [15, 13, 0, 0, 0, 0, 0, 22],
-        [13, 13, 0, 0, 0, 0, 0, 22],
+        [15, 13, 0, 0, 0, 0, 22, 22],
+        [13, 13, 0, 0, 0, 0, 22, 22],
         [22, 22, 0, 0, 0, 0, 0, 22],
         [22, 0, 0, 0, 0, 0, 0, 22],
-        [22, 0, 0, 0, 0, 0, 0, 22]
+        [22, 0, 0, 0, 0, 0, 0, 22],
       ],
       mapMarginLeft: 0,
       timerRunning: false,
@@ -222,15 +330,17 @@ export default defineComponent({
       showSkinAuthorization: false,
       generateCd: 3,
       flightLength: 0,
-      playerOffset:0
-    }
-  }
+      playerOffset: 0,
+      jumpVelocity: 2,
+      impactCheckTimerCnt: 0,
+      gameStarted: false,
+      gameRunning: false,
+    };
+  },
 });
-
 </script>
 
 <style scoped>
-
 .container {
   display: flex;
   justify-content: center;
@@ -251,7 +361,7 @@ export default defineComponent({
 .item-container {
   margin-left: 39px;
   image-rendering: pixelated;
-  background-image: url("/minigame-assets/happy-pointed-dripstone/gui/container.png");
+  background-image: url('/minigame-assets/happy-pointed-dripstone/gui/container.png');
   background-size: 240px 80px;
   max-width: 240px;
   min-height: 80px;
@@ -265,5 +375,4 @@ export default defineComponent({
   width: 32px;
   height: 32px;
 }
-
 </style>
